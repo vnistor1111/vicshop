@@ -135,7 +135,7 @@ LOGOUT_REDIRECT_URL = '/login/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'nistorvictorsoftware@gmail.com'
+EMAIL_HOST_USER = secret.email_user
 EMAIL_HOST_PASSWORD = secret.email_password
 EMAIL_USE_TLS = True  # Use TLS
 EMAIL_PORT = 465
