@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Product Details{% endblock %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 gy-5">
+                <div class="card text-center">
+                    <div class="card-header">
+                        Product Details
+                    </div>
+
+                    <div class="product-details">
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                <li>
+                                <div>
+                                    {% if product.image %}
+                                        <div style="display: flex; justify-content: center; align-items: center;">
+                                            <img class="card-img-top" 
+                                                 src="{{ product.image.url }}"
+                                                 alt="Product image"
+                                                 style="max-width: 50%; max-height: 50%; object-fit: contain;">
+                                        </div>
+                                    {% else %}
+                                        <div style="display: flex; justify-content: center; align-items: center;">
+                                            <img class="card-img-top" 
+                                                 src="{% static 'images/image-not-found.jpg' %}" 
+                                                 alt="Product not found image" 
+                                                 style="max-width: 50%; max-height: 50%; object-fit: contain;">
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                </li>
+                                <li class="list-group-item"><h5 class="card-title">{{ product }}</h5></li>
+                                <li class="list-group-item">Category: {{ product.category }}</li>
+                                <li class="list-group-item">Price: {{ product.price }} RON</li>
+                                <li class="list-group-item">Available in shop: {{ product.is_active|yesno:"Yes,No" }}</li>
+                                <li class="list-group-item">Description : {{ product.description }}</li>
+    {#                            <li class="list-group-item"><a href="{% url 'list-products' %}" class="btn btn-primary">Back to product list</a></li>#}
+                            </ul>
+                        </div>
+                    </div>
+
+{#                <!-- Reviews -->#}
+{#                    <div class="review-details">#}
+{#                        <h2>Reviews</h2>#}
+{#                        {% for review in product.reviews.all %}#}
+{#                            <div class="review">#}
+{#                                <p><strong>User:</strong> {{ review.user.get_full_name }} </p>#}
+{#                                <p><strong>Comment:</strong> {{ review.comment }}</p>#}
+{#                                <p><strong>Rating:</strong> {{ review.rating }}</p>#}
+{#                                <p><strong>Date:</strong> {{ review.created_on|date:"d-m-Y" }}</p>#}
+{#                            </div>#}
+{#                        {% empty %}#}
+{#                            <p>No reviews yet.</p>#}
+{#                        {% endfor %}#}
+{#                    </div>#}
+                
+                    <div class="review-section">
+                        <h2>Reviews</h2>
+                        {% for review in product.reviews.all %}
+                            <div class="review-card">
+                                <p class="user-name">{{ review.user.get_full_name }}</p>
+                                <p class="user-comment">{{ review.comment }}</p>
+                                <div class="rating">
+{#                                    {% for star in range(1, review.rating) %}#}
+                                        <span class="rating-icon">⭐</span>
+{#                                    {% endfor %}#}
+                                    <span class="rating-value">{{ review.rating }}</span>
+                                </div>
+                                <p class="review-date">{{ review.created_on|date:"d-m-Y" }}</p>
+                            </div>
+                        {% empty %}
+                            <p class="empty-state">No reviews yet. Be the first to leave a review!</p>
+                        {% endfor %}
+                    </div>
+
+                <!-- Comments -->
+                <div class="comment-form">
+                    <h2>Leave a Review</h2>
+{#                    <form method="post" action="{% url 'product_review' %}">#}
+{#                        {% csrf_token %}#}
+{#                        {{ form.as_p }}#}
+                        <a href="{% url 'product_review' %}?product_id={{ product.id }}" class="btn btn-success">Add a review to this product</a>
+{#                    </form>#}
+                </div>
+
+                <br><br>
+
+                <!-- Footer -->
+                <div class="card-footer text-body-secondary">
+                    <p> Created at: {{ product.created|date:"d-m-Y H:i:s" }} / Updated at: {{ product.updated|date:"d-m-Y H:i:s" }}</p>
+                </div>
+
+            </div>
+            <div style="text-align: center; margin-top:10px;">
+                <a href="{% url 'list-products' %}" class="btn btn-primary">Back to product list</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

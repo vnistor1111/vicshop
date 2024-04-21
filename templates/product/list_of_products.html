@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} List of products{% endblock %}
+
+{% block content %}
+    <style>
+    legend {
+        font-size: 1rem !important;
+    }
+    </style>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 gy-5">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-center">Filters</h3>
+                    </div>
+                    <form method="get">
+                        <div class="card-body">
+                            {{ filters }}
+                        </div>
+                        <div class="card-footer text-center">
+                            <button type="submit" class="btn btn-outline-success">Search</button>
+                            <a href="{% url 'list-products' %}" class="btn btn-outline-danger">Reset</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-10">
+                <div class="row">
+                    {% if all_products %}
+                        {% for product in all_products %}
+                            <div class="col-md-2 gy-5">
+                                <div class="card">
+                                    {% if product.image %}
+                                        <img class="card-img-top" src="{{ product.image.url }}"
+                                             alt="Product image"
+                                             height="300">
+                                    {% else %}
+                                        <img class="card-img-top" src="{% static 'images/image-not-found.jpg' %}"
+                                             alt="Product not found image" height="300">
+                                    {% endif %}
+                                    <div style="overflow-y: hidden; height: 300px">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ product.name }}</h5>
+                                            <br>
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item"> Category: {{ product.category }}</li>
+                                                <li class="list-group-item" style="font-size: 16px; font-weight: bold; color: red"> Price: {{ product.price }} RON</li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="card-footer d-flex justify-content-center">
+                                            <div class="row">
+                                                <div class="col text-center">
+                                                    <a class="btn btn-danger mt-1" href="{% url 'home_page' %}" style="font-size: 16px; padding: 10px 16px;"><i class="bi bi-star"></i></a>
+                                                </div>
+                                                <div class="col text-center">
+                                                    <a class="btn btn-warning mt-1" href="{% url 'product-specifications' product.id %}" style="font-size: 16px; padding: 10px 16px;"><i class="bi bi-gear-fill"></i></a>
+                                                </div>
+                                                <div class="col text-center">
+                                                    <a class="btn btn-success mt-1" href="{% url 'home_page' %}" style="font-size: 16px; padding: 10px 16px;"><i class="bi bi-cart-plus"></i></a>
+                                                </div>
+                                                <div class="col text-center">
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-primary dropdown-toggle mt-1" type="button"
+                                                                data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 16px; padding: 10px 16px;">
+                                                            <i class="bi bi-pencil-square"></i>
+                                                        </button>
+                                                        <ul class="dropdown-menu">
+                                                            <li><a class="dropdown-item" href="{% url 'update-product' product.id %}">Update</a></li>
+                                                            <li><a class="dropdown-item" href="{% url 'delete-product' product.id %}">Delete</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                        <small class="text-muted">Created
+                                            on: {{ product.created|date:"d-m-Y H:i:s" }}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        No data available.
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

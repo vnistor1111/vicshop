@@ -1,0 +1,11 @@
+#navbar {
+    background-color: #333333; /* Dark gray bg color */
+}
+
+.nav-link {
+    color: #ffffff /* White text color for links */
+}
+
+.dropdown-item {
+    color: #ffffff; /* White color for dropdown items */
+}

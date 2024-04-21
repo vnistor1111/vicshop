@@ -1,0 +1,50 @@
+{%  extends 'base.html' %}
+{% load static %}
+
+{% block title %} Delete - {{ product }} {% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 gy-5">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-center"> Are you sure you want to delete: {{ product }} ?</h3>
+                    </div>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="card-body">
+                            <div>
+                                {% if product.image %}
+                                    <div style="display: flex; justify-content: center; align-items: center;">
+                                        <img class="card-img-top" 
+                                             src="{{ product.image.url }}"
+                                             alt="Product image"
+                                             style="max-width: 50%; max-height: 50%; object-fit: contain;">
+                                    </div>
+                                {% else %}
+                                    <div style="display: flex; justify-content: center; align-items: center;">
+                                        <img class="card-img-top" 
+                                             src="{% static 'images/image-not-found.jpg' %}" 
+                                             alt="Product not found image" 
+                                             style="max-width: 50%; max-height: 50%; object-fit: contain;">
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <p><strong>Product name: </strong>{{ product  }}</p>
+                            <p><strong>Category: </strong>{{ product.category }}</p>
+                            <p><strong>Description: </strong>{{ product.description }}</p>
+                            <p><strong>Price: </strong>{{ product.price }}</p>
+                        </div>
+                        <div class="card-footer text-center">
+                            <button type="submit" class="btn btn-danger">DELETE</button>
+                            <a href="{% url 'list-products' %}" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
