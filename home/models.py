@@ -117,14 +117,10 @@ class Cart(models.Model):
         return sum(item.quantity * item.product.price for item in self.cartitem_set.all())
 
 
-# each cart item should be associated with a product and a user
 class CartItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    # user = models.ForeignKey(SiteUser, on_delete=models.CASCADE)
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
-    # price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.PositiveIntegerField(default=0)
-    # date_added = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return f'{self.quantity} x {self.product.name}'

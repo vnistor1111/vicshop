@@ -14,3 +14,6 @@ admin.site.register(Contact),
 admin.site.register(ProductReview),
 admin.site.register(Cart),
 admin.site.register(CartItem),
+admin.site.register(Newsletter),
+admin.site.register(NewsletterSubscriber)
+

@@ -32,3 +32,20 @@
 .contact-form button.btn:hover {
     background: #0056b3;
 }
+
+/*navbar*/
+
+.navbar-nav .nav-link {
+    color: white !important;
+}
+.navbar-brand {
+    color: white !important;
+}
+.btn-outline-light {
+    color: greenyellow !important;
+    border-color: greenyellow !important;
+}
+.btn-outline-light:hover {
+    color: #303030 !important;
+    background-color: greenyellow !important;
+}

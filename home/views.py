@@ -35,16 +35,14 @@ def contact(request):
         if form.is_valid():
             new_contact = form.save()
 
-            # Send an email notification (optional)
             send_mail(
                 'New Contact Submission',
                 f"Subject: {new_contact.subject}\nMessage: {new_contact.message}\nEmail: {new_contact.email}\nPhone: {new_contact.phone_number}",
-                secret.email_user,  # Replace with your email
-                [secret.email_user],  # Replace with your email
+                secret.email_user,
+                [secret.email_user],
                 fail_silently=False,
             )
 
-            # Display a success message
             messages.success(request, 'Your message has been sent successfully!')
             return redirect('contact')  # Redirect to a 'thank you' page or back to the contact form
     else:
@@ -57,8 +55,7 @@ class ProductListView(ListView):
     template_name = 'product/list_of_products.html'
     model = Product
     context_object_name = 'all_products'
-
-    # permission_required = 'product.view_list_of_products'
+    paginate_by = 50
 
     def get_queryset(self):
         products = Product.objects.all()
@@ -67,7 +64,6 @@ class ProductListView(ListView):
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
-        # print(data)
         data['filters'] = ProductFilter(self.request.GET, queryset=self.get_queryset()).form
         return data
 
@@ -103,11 +99,6 @@ class ProductDeleteView(DeleteView):
 class ProductDetailView(DetailView):
     template_name = 'product/product_details.html'
     model = Product
-
-
-# def review_detail(request, pk):
-#     review = get_object_or_404(ProductReview, pk=pk)
-#     return render(request, 'reviews/review_detail.html', {'review': review})
 
 
 class CategoryCreateView(CreateView):
@@ -203,4 +194,3 @@ def add_to_cart(request):
             messages.success(request, 'Item added to cart successfully.')
 
     return redirect(request.META.get('HTTP_REFERER', reverse_lazy('cart')))
-

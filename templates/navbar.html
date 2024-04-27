@@ -1,32 +1,149 @@
+{#{% load static %}#}
+{##}
+{#<nav class="navbar navbar-expand-lg bg-body-tertiary">#}
+{#    <div class="container-fluid">#}
+{#        <a class="navbar-brand" href={% url 'home_page' %}><img src="{%  static 'images/nv-logo-rectangle.jpeg' %}" width="80" height="40" alt="Home image" ></a>#}
+{#        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"#}
+{#                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">#}
+{#            <span class="navbar-toggler-icon"></span>#}
+{#        </button>#}
+{#        <div class="collapse navbar-collapse" id="navbarSupportedContent">#}
+{#            <ul class="navbar-nav me-auto mb-2 mb-lg-0">#}
+{##}
+{#                <li class="nav-item searchbar">#}
+{#                    <form method="get" class="d-flex" role="search" action="{% url 'list-products' %}">#}
+{#                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="name">#}
+{#                        <button class="btn btn-outline-success" type="submit">Search</button>#}
+{#                    </form>#}
+{#                </li>#}
+{##}
+{#                <li class="nav-item dropdown">#}
+{#                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"#}
+{#                       aria-expanded="false">#}
+{#                        About us#}
+{#                    </a>#}
+{#                    <ul class="dropdown-menu">#}
+{#                        <li><a class="dropdown-item" href={% url 'about_us' %}> Company  </a></li>#}
+{#                        <li><a class="dropdown-item" href={% url 'contact' %}> Contact </a></li>#}
+{#                    </ul>#}
+{#                </li>#}
+{##}
+{#                <li class="nav-item dropdown">#}
+{#                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">#}
+{#                        Categories#}
+{#                    </a>#}
+{#                    <ul class="dropdown-menu">#}
+{#                        {% for category in category_list %}#}
+{#                        <li><a class="dropdown-item" href="{% url 'list-products' %}?category={{ category.id }}">{{ category.name }}</a></li>#}
+{#                        {% endfor %}#}
+{#                    </ul>#}
+{#                </li>#}
+{##}
+{#                <li class="nav-item dropdown">#}
+{#                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"#}
+{#                       aria-expanded="false">#}
+{#                        Products#}
+{#                    </a>#}
+{#                    <ul class="dropdown-menu">#}
+{#                        <li><a class="dropdown-item" href={% url 'list-products' %}>List of Products</a></li>#}
+{#                        <li><a class="dropdown-item" href={% url 'create-category' %}>Add a new product category</a></li>#}
+{#                        <li><a class="dropdown-item" href={% url 'create-product' %}>Add a new product</a></li>#}
+{#                    </ul>#}
+{#                </li>#}
+{##}
+{#            </ul>#}
+{##}
+{#            <ul class="navbar-nav ms-auto d-flex align-items-center">#}
+{#                {% if user.is_authenticated %}#}
+{#                    <li class="nav-item">#}
+{#                        <a class="nav-link active" href="{% url 'cart' %}" role="button" style="color: green; font-size: 20px;">#}
+{#                            {% if cart_item_count %}#}
+{#                                <span class="badge rounded-pill bg-danger">{{ cart_item_count }}</span>#}
+{#                            {% endif %}#}
+{#                            <i class="bi bi-cart4"></i>#}
+{#                        </a>#}
+{#                    </li>#}
+{#                {% else %}#}
+{#                    <li class="nav-item">#}
+{#                        <a class="nav-link active" href="{% url 'login' %}" role="button" style="color: green; font-size: 20px;">#}
+{#                            <i class="bi bi-cart4" ></i>#}
+{#                        </a>#}
+{#                    </li>#}
+{#                {% endif %}#}
+{##}
+{#                <li class="nav-item dropdown">#}
+{#                    {% if user.is_authenticated %}#}
+{#                    <form method="post" action="{% url 'logout' %}" class="d-flex align-items-center">#}
+{#                        {% csrf_token %}#}
+{#                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAccount" role="button" data-bs-toggle="dropdown" aria-expanded="false">#}
+{#                                Account#}
+{#                            </a>#}
+{#                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownAccount">#}
+{#                                <li>#}
+{#                                    <a href="{% url 'details_user' request.user.id %}" class="dropdown-item">User Profile</a>#}
+{#                                </li>#}
+{#                                <li>#}
+{#                                    <form action="{% url 'logout' %}" method="post">#}
+{#                                        {% csrf_token %}#}
+{#                                        <button type="submit" class="dropdown-item">Logout, {{ user.first_name }} {{ user.last_name }}</button>#}
+{#                                    </form>#}
+{#                                </li>#}
+{#                            </ul>#}
+{#                    </form>#}
+{#                    {% else %}#}
+{#                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAccount" role="button" data-bs-toggle="dropdown" aria-expanded="false">#}
+{#                            Account#}
+{#                        </a>#}
+{#                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownAccount">#}
+{#                            <li>#}
+{#                                <a href="{% url 'login' %}" class="dropdown-item">Login</a>#}
+{#                            </li>#}
+{#                            <li>#}
+{#                                <a href="{% url 'create_user' %}" class="dropdown-item">Sign up</a>#}
+{#                            </li>#}
+{#                        </ul>#}
+{#                    {% endif %}#}
+{#                </li>#}
+{#            </ul>#}
+{##}
+{#        </div>#}
+{#    </div>#}
+{#</nav>#}
+
 {% load static %}
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-        <a class="navbar-brand" href={% url 'home_page' %}><img src="{%  static 'images/nv-logo-rectangle.jpeg' %}" width="80" height="40" alt="Home image" ></a>
+
+<nav class="navbar navbar-expand-lg" style="background-color: #303030;">
+    <div class="container">
+        <!-- Logo -->
+        <a class="navbar-brand" href="{% url 'home_page' %}" style="margin-right: 1rem;">
+            <img src="{% static 'images/nv-logo-rectangle.jpeg' %}" width="80" height="40" alt="Home image">
+        </a>
+        <!-- Toggler -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-                <li class="nav-item searchbar">
+        <!-- Navbar links -->
+        <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+                <!-- Search Bar -->
+                <li class="nav-item" style="flex-grow: 1; margin-left: 1rem;">
                     <form method="get" class="d-flex" role="search" action="{% url 'list-products' %}">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="name">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="name" style="flex-grow: 1;">
+                        <button class="btn btn-outline-light" type="submit">Search</button>
                     </form>
                 </li>
-
+                <!-- About Us Dropdown -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                       aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         About us
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href={% url 'about_us' %}> Company  </a></li>
-                        <li><a class="dropdown-item" href={% url 'contact' %}> Contact </a></li>
+                        <li><a class="dropdown-item" href="{% url 'about_us' %}">Company</a></li>
+                        <li><a class="dropdown-item" href="{% url 'contact' %}">Contact</a></li>
                     </ul>
                 </li>
-
+                <!-- Categories Dropdown -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Categories
@@ -37,73 +154,66 @@
                         {% endfor %}
                     </ul>
                 </li>
-
+                <!-- Products Dropdown -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                       aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Products
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href={% url 'list-products' %}>List of Products</a></li>
-                        <li><a class="dropdown-item" href={% url 'create-category' %}>Add a new product category</a></li>
-                        <li><a class="dropdown-item" href={% url 'create-product' %}>Add a new product</a></li>
+                        <li><a class="dropdown-item" href="{% url 'list-products' %}">List of Products</a></li>
+                        <li><a class="dropdown-item" href="{% url 'create-category' %}">Add a new product category</a></li>
+                        <li><a class="dropdown-item" href="{% url 'create-product' %}">Add a new product</a></li>
                     </ul>
                 </li>
-
             </ul>
 
             <ul class="navbar-nav ms-auto d-flex align-items-center">
+                <!-- Cart Icon -->
                 {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{% url 'cart' %}" role="button">
-                            <i class="bi bi-cart4 h3" style="color: green; margin-right: 10px;"></i>
-                        </a>
-                    </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'cart' %}" role="button">
+                        {% if cart_item_count %}
+                            <span class="badge rounded-pill bg-danger">{{ cart_item_count }}</span>
+                        {% endif %}
+                        <i class="bi bi-cart-fill" style="color: green; font-size: 1.5rem;"></i>
+                    </a>
+                </li>
                 {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{% url 'login' %}" role="button">
-                            <i class="bi bi-cart4 h3" style="color: green; margin-right: 10px;"></i>
-                        </a>
-                    </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'login' %}" role="button">
+                        <i class="bi bi-cart-fill" style="color: green; font-size: 1.5rem;"></i>
+                    </a>
+                </li>
                 {% endif %}
-
+                <!-- Account Dropdown -->
                 <li class="nav-item dropdown">
                     {% if user.is_authenticated %}
-                    <form method="post" action="{% url 'logout' %}" class="d-flex align-items-center">
-                        {% csrf_token %}
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAccount" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Account
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownAccount">
-                                <li>
-                                    <a href="{% url 'details_user' request.user.id %}" class="dropdown-item">User Profile</a>
-                                </li>
-                                <li>
-                                    <form action="{% url 'logout' %}" method="post">
-                                        {% csrf_token %}
-                                        <button type="submit" class="dropdown-item">Logout, {{ user.first_name }} {{ user.last_name }}</button>
-                                    </form>
-                                </li>
-                            </ul>
-                    </form>
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAccount" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Account
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownAccount">
+                        <li><a href="{% url 'details_user' request.user.id %}" class="dropdown-item">User Profile</a></li>
+                        <li>
+                            <form action="{% url 'logout' %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="dropdown-item">Logout, {{ user.first_name }} {{ user.last_name }}</button>
+                            </form>
+                        </li>
+                    </ul>
                     {% else %}
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAccount" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Account
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownAccount">
-                            <li>
-                                <a href="{% url 'login' %}" class="dropdown-item">Login</a>
-                            </li>
-                            <li>
-                                <a href="{% url 'create_user' %}" class="dropdown-item">Sign up</a>
-                            </li>
-                        </ul>
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAccount" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Account
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownAccount">
+                        <li><a href="{% url 'login' %}" class="dropdown-item">Login</a></li>
+                        <li><a href="{% url 'create_user' %}" class="dropdown-item">Sign up</a></li>
+                    </ul>
                     {% endif %}
                 </li>
             </ul>
-
         </div>
     </div>
 </nav>
+
 
 
