@@ -29,7 +29,7 @@
                 </div>
                 <div style="text-align: center; margin-top:10px;">
                     <a href="{% url 'update_user' request.user.id %}" class="btn btn-primary">Update user details</a>
-                    <a href="{% url 'reset_password' request.user.id %}" class="btn btn-primary">Change password</a>
+                    <a href="{% url 'profile_reset_password' request.user.id %}" class="btn btn-primary">Change password</a>
                     <a href="{% url 'delete_user' request.user.id %}" class="btn btn-primary">Delete account</a>
                     <a href="{% url 'home_page' %}" class="btn btn-primary">Back to home page</a>
                 </div>

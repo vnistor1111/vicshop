@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}About Us{% endblock %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                
+                <div class="col-md-6 offset-md-3 text-center">
+                    <img src="{% static 'images/logo-circuits.jpeg' %}" alt="imagine home" width="300" height="300">
+                </div>
+                <div class="text-center">
+                    <h1 class="display-4">NV-Shop</h1>
+                    <p class="lead">Welcome to NV-Shop! Where technology meets innovation! 🚀</p>
+                </div>
+                <div class="mt-5">
+                    <h2>Our Story</h2>
+                    <p>At NV-Shop, we’re passionate about all things tech. Whether you’re a seasoned gamer, a creative professional, or simply someone who loves gadgets, we’ve got you covered. Our journey began with a vision: to create a haven for tech enthusiasts, where cutting-edge products meet exceptional service.</p>
+                </div>
+                <div class="mt-5">
+                    <h2>What Sets Us Apart?</h2>
+                    <ul>
+                        <li>Curated Selection: We handpick the latest and greatest PCs, laptops, peripherals, and accessories. Quality matters to us, so you’ll find only top-tier brands on our shelves.</li>
+                        <li>Expert Advice: Our team of tech-savvy enthusiasts is here to guide you. Need help choosing the perfect gaming rig? Wondering which monitor complements your creative workflow? We’ve got answers.</li>
+                        <li>Custom Builds: Looking for a PC that’s uniquely yours? Our custom build service lets you design your dream machine. From RGB lighting to liquid cooling, we’ll bring your vision to life.</li>
+                        <li>Geek Haven: Step into our store, and you’ll feel the buzz of excitement. It’s not just a shop; it’s a community. Share your tech triumphs, swap overclocking tips, and geek out with fellow enthusiasts.</li>
+                    </ul>
+                </div>
+                <div class="mt-5">
+                    <h2>Our Promise</h2>
+                    <ul>
+                        <li>Quality Assurance: Every product undergoes rigorous testing. We wouldn’t sell anything we wouldn’t use ourselves.</li>
+                        <li>Customer Delight: Your satisfaction is our priority. Have a question? Need post-purchase support? We’re here for you.</li>
+                        <li>Innovation Hub: Stay ahead of the curve with our workshops, demos, and tech events. Learn, explore, and embrace the future.</li>
+                    </ul>
+                </div>
+                <div class="mt-5 text-center">
+                    <h2>Visit Us Today!</h2>
+                    <p>NV-Shop is more than a store; it’s an experience. Come see us at our flagship location or explore our online catalog.</p>
+                    <p><i>NV-Shop: Where Bytes Become Brilliance.</i></p>
+                    <a href="{% url 'list-products' %}" class="btn btn-primary btn-lg">Explore Our Products</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{%  extends 'base.html' %}
+{% load static %}
+
+{% block title %} Delete - {{ productreview }} {% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 gy-5">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-center"> Are you sure you want to delete: {{ productreview }} ?</h3>
+                    </div>
+                    <form method="post"> 
+                        {% csrf_token %}
+                            <div class="review-card">
+                                <div class="rating">
+                                    <span title="{{ review.rating }}/5">
+                                        {% if productreview.rating == 1%}<span class="rating-icon">⭐</span>{% endif %}
+                                        {% if productreview.rating == 2%}<span class="rating-icon">⭐⭐</span>{% endif %}
+                                        {% if productreview.rating == 3%}<span class="rating-icon">⭐⭐⭐</span>{% endif %}
+                                        {% if productreview.rating == 4%}<span class="rating-icon">⭐⭐⭐⭐</span>{% endif %}
+                                        {% if productreview.rating == 5%}<span class="rating-icon">⭐⭐⭐⭐⭐</span>{% endif %}
+                                    </span>
+                                    <span><strong>( {{ productreview.rating }}/5 )</strong></span>
+                                </div>
+                                <br>
+                                <p class="user-comment">{{ productreview.comment }}</p>
+                                <p class="user-review">by {{ productreview.user.get_full_name }} on {{ productreview.created_on|date:"d-m-Y" }}</p>
+                            </div>
+                        <div class="card-footer text-center">
+                            <button type="submit" class="btn btn-danger">DELETE</button>
+                            <a href="{% url 'list-products' %}" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

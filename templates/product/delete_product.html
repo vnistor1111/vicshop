@@ -17,16 +17,16 @@
                             <div>
                                 {% if product.image %}
                                     <div style="display: flex; justify-content: center; align-items: center;">
-                                        <img class="card-img-top" 
+                                        <img class="card-img-top"
                                              src="{{ product.image.url }}"
                                              alt="Product image"
                                              style="max-width: 50%; max-height: 50%; object-fit: contain;">
                                     </div>
                                 {% else %}
                                     <div style="display: flex; justify-content: center; align-items: center;">
-                                        <img class="card-img-top" 
-                                             src="{% static 'images/image-not-found.jpg' %}" 
-                                             alt="Product not found image" 
+                                        <img class="card-img-top"
+                                             src="{% static 'images/image-not-found.jpg' %}"
+                                             alt="Product not found image"
                                              style="max-width: 50%; max-height: 50%; object-fit: contain;">
                                     </div>
                                 {% endif %}

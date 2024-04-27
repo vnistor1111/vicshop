@@ -8,25 +8,25 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                
+
                 <li class="nav-item searchbar">
                     <form method="get" class="d-flex" role="search" action="{% url 'list-products' %}">
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="name">
                         <button class="btn btn-outline-success" type="submit">Search</button>
                     </form>
                 </li>
-                
+
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                        aria-expanded="false">
                         About us
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href={% url 'home_page' %}> Company </a></li>
-                        <li><a class="dropdown-item" href={% url 'home_page' %}> Contact </a></li>
+                        <li><a class="dropdown-item" href={% url 'about_us' %}> Company  </a></li>
+                        <li><a class="dropdown-item" href={% url 'contact' %}> Contact </a></li>
                     </ul>
                 </li>
-            
+
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Categories
@@ -37,7 +37,7 @@
                         {% endfor %}
                     </ul>
                 </li>
-                
+
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                        aria-expanded="false">
@@ -53,12 +53,20 @@
             </ul>
 
             <ul class="navbar-nav ms-auto d-flex align-items-center">
-                <li class="nav-item">
-                    <a class="nav-link active" href="{% url 'home_page' %}" role="button">
-                        <i class="bi bi-cart4 h3" style="color: green; margin-right: 10px;"></i>
-                    </a>
-                </li>
-            
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'cart' %}" role="button">
+                            <i class="bi bi-cart4 h3" style="color: green; margin-right: 10px;"></i>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'login' %}" role="button">
+                            <i class="bi bi-cart4 h3" style="color: green; margin-right: 10px;"></i>
+                        </a>
+                    </li>
+                {% endif %}
+
                 <li class="nav-item dropdown">
                     {% if user.is_authenticated %}
                     <form method="post" action="{% url 'logout' %}" class="d-flex align-items-center">
@@ -97,3 +105,5 @@
         </div>
     </div>
 </nav>
+
+

@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import TextInput, EmailInput, Select, NumberInput, Textarea
 
-from home.models import Product, Category, ProductReview
+from home.models import Product, Category, ProductReview, Contact
 
 
 class ProductForm(forms.ModelForm):
@@ -50,6 +50,25 @@ class CategoryForm(forms.ModelForm):
                 attrs={'class': 'form-control', 'placeholder': "Please enter product category name"}),
             'slug': TextInput(
                 attrs={'class': 'form-select', 'placeholder': "Please enter product category slug"})
+        }
+
+
+class ContactForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ContactForm, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({
+                'class': 'form-control'
+            })
+
+    class Meta:
+        model = Contact
+        fields = ['subject', 'message', 'email', 'phone_number']
+        widgets = {
+            'subject': forms.TextInput(attrs={'placeholder': 'Subject'}),
+            'message': forms.Textarea(attrs={'placeholder': 'Your message...'}),
+            'email': forms.EmailInput(attrs={'placeholder': 'Your Email'}),
+            'phone_number': forms.TextInput(attrs={'placeholder': 'Your Phone Number'}),
         }
 
 

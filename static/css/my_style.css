@@ -1,11 +1,34 @@
-#navbar {
-    background-color: #333333; /* Dark gray bg color */
+/*contact form*/
+
+.contact-form {
+    max-width: 600px;
+    margin: auto;
+    padding: 15px;
+    border-radius: 10px;
+    background: #f9f9f9;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
-.nav-link {
-    color: #ffffff /* White text color for links */
+.contact-form .form-control {
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    padding: 10px;
 }
 
-.dropdown-item {
-    color: #ffffff; /* White color for dropdown items */
+.contact-form .form-control:focus {
+    border-color: #007bff;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(0, 123, 255, 0.6);
+}
+
+.contact-form button.btn {
+    padding: 10px 20px;
+    border-radius: 5px;
+    background: #007bff;
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.contact-form button.btn:hover {
+    background: #0056b3;
 }

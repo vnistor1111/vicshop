@@ -92,32 +92,6 @@ class Contact(models.Model):
     def __str__(self):
         return self.subject
 
-    # Cart
-
-
-class Cart(models.Model):
-    STATUS = [
-        ('open', 'Open'),
-        ('closed', 'Closed'),
-    ]
-    user = models.ForeignKey(SiteUser, on_delete=models.CASCADE)
-    status = models.CharField(max_length=20, choices=STATUS, default='open')
-
-    # Cart Item
-
-
-# each cart item should be associated with a product and a user
-class CartItem(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    user = models.ForeignKey(SiteUser, on_delete=models.CASCADE)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    quantity = models.PositiveIntegerField(default=1)
-    date_added = models.DateTimeField(default=timezone.now)
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f'{self.quantity} x {self.product.name}'
-
 
 class NewsletterSubscriber(models.Model):
     email = models.EmailField()
@@ -127,3 +101,34 @@ class Newsletter(models.Model):
     subject = models.CharField(max_length=255)
     body = models.TextField()
     send_datetime = models.DateTimeField(default=timezone.now)
+
+
+# Cart
+
+class Cart(models.Model):
+    STATUS = [
+        ('open', 'Open'),
+        ('closed', 'Closed'),
+    ]
+    user = models.ForeignKey(SiteUser, on_delete=models.CASCADE)
+    status = models.CharField(max_length=20, choices=STATUS, default='open')
+
+    def get_total_price(self):
+        return sum(item.quantity * item.product.price for item in self.cartitem_set.all())
+
+
+# each cart item should be associated with a product and a user
+class CartItem(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    # user = models.ForeignKey(SiteUser, on_delete=models.CASCADE)
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    # price = models.DecimalField(max_digits=10, decimal_places=2)
+    quantity = models.PositiveIntegerField(default=0)
+    # date_added = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f'{self.quantity} x {self.product.name}'
+
+
+
+

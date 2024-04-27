@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Contact Us{% endblock %}
+{% load static %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <h1 class="display-4 text-center mt-2">Get in Touch</h1>
+                <h6 class="lead text-center mt-2">Have questions? Need assistance? Reach out to us!</h6>
+                <form method="post" class="contact-form">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        {{ form.subject.label_tag }}
+                        {{ form.subject }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.message.label_tag }}
+                        {{ form.message }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.email.label_tag }}
+                        {{ form.email }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.phone_number.label_tag }}
+                        {{ form.phone_number }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+                <h6 class="text-center mt-4">Alternatively, you can reach us at:</h6>
+                    <ul class="list-unstyled text-center mt-2">
+                    <li><i class="fas fa-envelope"></i> Email: <a href="mailto:info@nv-shop.com">info@nv-shop.com</a></li>
+                    <li><i class="fas fa-phone"></i> Phone: +40 123-456-789</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Visit us at: Str. Tehnologiei, nr. 1, Bucharest, Romania</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
