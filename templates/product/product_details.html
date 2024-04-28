@@ -46,21 +46,21 @@
                         {% for review in product.reviews.all %}
                             <div class="review-card">
                                 <div class="rating">
+                                    <br>
                                     <span title="{{ review.rating }}/5">
-                                        {% if review.rating == 1%}<span class="rating-icon">⭐</span>{% endif %}
-                                        {% if review.rating == 2%}<span class="rating-icon">⭐⭐</span>{% endif %}
-                                        {% if review.rating == 3%}<span class="rating-icon">⭐⭐⭐</span>{% endif %}
-                                        {% if review.rating == 4%}<span class="rating-icon">⭐⭐⭐⭐</span>{% endif %}
-                                        {% if review.rating == 5%}<span class="rating-icon">⭐⭐⭐⭐⭐</span>{% endif %}
+                                        {% if review.rating == 1%}<i class="bi bi-star-fill"></i>{% endif %}
+                                        {% if review.rating == 2%}<i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></span>{% endif %}
+                                        {% if review.rating == 3%}<i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>{% endif %}
+                                        {% if review.rating == 4%}<i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>{% endif %}
+                                        {% if review.rating == 5%}<i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>{% endif %}
                                     </span>
                                     <span><strong>( {{ review.rating }}/5 )</strong></span>
                                 </div>
-                                <br>
-                                <p class="user-comment">{{ review.comment }}</p>
                                 <p class="user-review">by {{ review.user.get_full_name }} on {{ review.created_on|date:"d-m-Y" }}</p>
+                                <p class="user-comment">{{ review.comment }}</p>
                                 {% if request.user == review.user %}
-                                    <a href="{% url 'update-review' review.pk %}" class="btn btn-success">Edit your review</a>
-                                    <a href="{% url 'delete-review' review.pk %}" class="btn btn-warning">Delete your review</a>
+                                    <a href="{% url 'update-review' review.pk %}" class="btn btn-warning">Edit your review</a>
+                                    <a href="{% url 'delete-review' review.pk %}" class="btn btn-danger">Delete your review</a>
                                 {% endif %}
                             </div>
                         {% empty %}
@@ -87,6 +87,7 @@
             <div style="text-align: center; margin-top:10px;">
                 <a href="{% url 'list-products' %}" class="btn btn-primary">Back to product list</a>
             </div>
+            <br>
         </div>
     </div>
 </div>

@@ -4,7 +4,7 @@
     <div class="container">
         <!-- Logo -->
         <a class="navbar-brand" href="{% url 'home_page' %}" style="margin-right: 1rem;">
-            <img src="{% static 'images/nv-shop-navbar.jpeg' %}" width="80" height="40" alt="Home image">
+            <img src="{% static 'images/nv-shop-navbar.jpeg' %}" width="80" height="60" alt="Home image">
         </a>
         <!-- Toggler -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -15,7 +15,7 @@
         <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
             <ul class="navbar-nav">
                 <!-- Search Bar -->
-                <li class="nav-item" style="flex-grow: 1; margin-left: 1rem;">
+                <li class="nav-searchbar" style="flex-grow: 1; margin-left: 1rem; margin-right: 2rem;">
                     <form method="get" class="d-flex" role="search" action="{% url 'list-products' %}">
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="name" style="flex-grow: 1;">
                         <button class="btn btn-outline-light" type="submit">Search</button>

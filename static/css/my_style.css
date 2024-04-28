@@ -49,3 +49,40 @@
     color: #303030 !important;
     background-color: greenyellow !important;
 }
+
+
+/*filters*/
+
+.radio-inline input[type="radio"] {
+    margin-top: -1px;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+.radio-inline label {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.bi.bi-star-fill {
+    color: gold;
+}
+
+.bi.bi-star-half {
+    color: gold;
+}
+
+.bi.bi-star {
+    color: gold;
+}
+
+/*card title*/
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-title {
+    flex: 1;
+    min-height: 50px;
+}

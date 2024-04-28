@@ -1,7 +1,10 @@
+from math import floor
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
+from django.db.models import Avg
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, TemplateView, ListView, UpdateView, DeleteView, DetailView
@@ -9,7 +12,7 @@ from django.views.generic import CreateView, TemplateView, ListView, UpdateView,
 import secret
 from .filters import ProductFilter
 from .forms import ProductForm, CategoryForm, ProductReviewForm, ContactForm
-from .models import Product, Category, ProductReview, Cart, CartItem
+from .models import Product, Category, ProductReview, Cart, CartItem, Favorite
 
 
 class HomeTemplateView(TemplateView):
@@ -64,9 +67,16 @@ class ProductListView(ListView):
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
+        all_products = self.get_queryset().annotate(average_rating=Avg('reviews__rating'))
+
+        for product in all_products:
+            rating = product.average_rating or 0
+            product.full_stars = floor(rating)
+            product.half_star = True if rating % 1 >= 0.5 else False
+
+        data['all_products'] = all_products
         data['filters'] = ProductFilter(self.request.GET, queryset=self.get_queryset()).form
         return data
-
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
     template_name = 'product/create_product.html'
@@ -106,6 +116,27 @@ class CategoryCreateView(CreateView):
     model = Category
     form_class = CategoryForm
     success_url = reverse_lazy('list-products')
+
+
+@login_required
+def add_to_favorites(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+    Favorite.objects.get_or_create(user=request.user, product=product)
+    return redirect('product_list')  # Redirect to the product list page
+
+@login_required
+def remove_from_favorites(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+    Favorite.objects.filter(user=request.user, product=product).delete()
+    return redirect('product_list')
+
+
+class FavoriteListView(ListView):
+    template_name = 'product/favorite_products.html'
+    context_object_name = 'favorite_products'
+
+    def get_queryset(self):
+        return Favorite.objects.filter(user=self.request.user).select_related('product')
 
 
 def product_category_search(request, category_slug):
@@ -157,6 +188,18 @@ class ProductReviewDeleteView(DeleteView):
     def get_success_url(self):
         product_review = self.get_object()
         return reverse_lazy('product-details', kwargs={'pk': product_review.product.pk})
+
+
+# def product_list_with_average_rating(request):
+#     products = Product.objects.all()
+#
+#     # Annotate each product with its average rating
+#     products_with_avg_rating = products.annotate(
+#         average_rating=Avg('reviews__rating')
+#     )
+#
+#     context = {'products': products_with_avg_rating}
+#     return render(request, 'product/product_list_with_average_rating.html', context)
 
 
 @login_required

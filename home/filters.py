@@ -32,6 +32,7 @@ class ProductFilter(django_filters.FilterSet):
                                                  widget=forms.DateInput(
                                                      attrs={'class': 'form-control', 'type': 'date'}))
 
+
     YES_OR_NO = (
         (True, 'Yes'),
         (False, 'No')
@@ -40,7 +41,7 @@ class ProductFilter(django_filters.FilterSet):
     active = django_filters.BooleanFilter(
         field_name='is_active',
         label='Product is active:',
-        widget=forms.RadioSelect(choices=YES_OR_NO)
+        widget=forms.RadioSelect(choices=YES_OR_NO, attrs={'class': 'form-check-inline'})
     )
 
     sort_by = django_filters.ChoiceFilter(
@@ -54,7 +55,7 @@ class ProductFilter(django_filters.FilterSet):
             ('created_at_desc', 'Created Date (Newest to Oldest)'),
         ],
         method='filter_sort_by',
-        widget=forms.Select(attrs={'class': 'form-select'})
+        widget=forms.Select(attrs={'class': 'form-select custom-select'})
     )
 
     def filter_sort_by(self, queryset, name, value):

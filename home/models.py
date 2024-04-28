@@ -58,6 +58,29 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+    def is_favorite(self, user):
+        return self.favorites.filter(user=user).exists()
+
+    # Favorite Product
+
+
+class Favorite(models.Model):
+    user = models.ForeignKey(SiteUser, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='favorites')
+    added_on = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'product')
+
+
+
+
+
+
+
+
+
+
     # Product Reviews
 
 

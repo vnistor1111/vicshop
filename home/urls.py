@@ -1,6 +1,6 @@
 from django.urls import path, include
 from home import views
-from home.views import ProductReviewView, contact
+from home.views import ProductReviewView, contact, add_to_favorites, remove_from_favorites
 
 urlpatterns = [
     path('', views.HomeTemplateView.as_view(), name='home_page'),
@@ -18,6 +18,8 @@ urlpatterns = [
     path('delete_review/<int:pk>', views.ProductReviewDeleteView.as_view(), name='delete-review'),
     path('cart/', views.cart_view, name='cart'),
     path('add_to_cart/', views.add_to_cart, name='add_to_cart'),
+    path('add_favorite/<int:product_id>/', add_to_favorites, name='add_favorite'),
+    path('remove_favorite/<int:product_id>/', remove_from_favorites, name='remove_favorite'),
 ]
 
 
