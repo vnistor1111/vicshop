@@ -73,10 +73,13 @@ class ProductListView(ListView):
             rating = product.average_rating or 0
             product.full_stars = floor(rating)
             product.half_star = True if rating % 1 >= 0.5 else False
+        for p in all_products:
+            p.favorite = p.is_favorite(self.request.user)
 
         data['all_products'] = all_products
         data['filters'] = ProductFilter(self.request.GET, queryset=self.get_queryset()).form
         return data
+
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
     template_name = 'product/create_product.html'
@@ -122,16 +125,18 @@ class CategoryCreateView(CreateView):
 def add_to_favorites(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
     Favorite.objects.get_or_create(user=request.user, product=product)
-    return redirect('product_list')  # Redirect to the product list page
+    return redirect('list-products')  # Redirect to the product list page
+
 
 @login_required
 def remove_from_favorites(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
     Favorite.objects.filter(user=request.user, product=product).delete()
-    return redirect('product_list')
+    return redirect('list-products')
 
 
 class FavoriteListView(ListView):
+    model = Favorite
     template_name = 'product/favorite_products.html'
     context_object_name = 'favorite_products'
 
@@ -188,18 +193,6 @@ class ProductReviewDeleteView(DeleteView):
     def get_success_url(self):
         product_review = self.get_object()
         return reverse_lazy('product-details', kwargs={'pk': product_review.product.pk})
-
-
-# def product_list_with_average_rating(request):
-#     products = Product.objects.all()
-#
-#     # Annotate each product with its average rating
-#     products_with_avg_rating = products.annotate(
-#         average_rating=Avg('reviews__rating')
-#     )
-#
-#     context = {'products': products_with_avg_rating}
-#     return render(request, 'product/product_list_with_average_rating.html', context)
 
 
 @login_required

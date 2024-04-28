@@ -41,6 +41,11 @@
                                         <img class="card-img-top" src="{% static 'images/image-not-found.jpg' %}"
                                              alt="Product not found image" height="300">
                                     {% endif %}
+                                    {% if product.favorite %}
+                                          <a href="{% url 'remove_favorite' product.id %}">Remove from Favorites</a>
+                                    {% else %}
+                                      <a href="{% url 'add_favorite' product.id %}">Add to Favorites</a>
+                                    {% endif %}
                                     <div style="overflow-y: hidden; height: 300px">
                                         <div class="card-body">
                                             <h5 class="card-title">{{ product.name }}</h5>
