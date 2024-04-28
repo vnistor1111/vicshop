@@ -2,7 +2,7 @@ from math import floor
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.mail import send_mail
 from django.db.models import Avg
 from django.shortcuts import render, get_object_or_404, redirect
@@ -65,6 +65,21 @@ class ProductListView(ListView):
         prod_filter = ProductFilter(self.request.GET, queryset=products)
         return prod_filter.qs
 
+    # def get_context_data(self, **kwargs):
+    #     data = super().get_context_data(**kwargs)
+    #     all_products = self.get_queryset().annotate(average_rating=Avg('reviews__rating'))
+    #
+    #     for product in all_products:
+    #         rating = product.average_rating or 0
+    #         product.full_stars = floor(rating)
+    #         product.half_star = True if rating % 1 >= 0.5 else False
+    #     for p in all_products: #problem
+    #         p.favorite = p.is_favorite(self.request.user)
+    #
+    #     data['all_products'] = all_products
+    #     data['filters'] = ProductFilter(self.request.GET, queryset=self.get_queryset()).form
+    #     return data
+
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         all_products = self.get_queryset().annotate(average_rating=Avg('reviews__rating'))
@@ -73,19 +88,23 @@ class ProductListView(ListView):
             rating = product.average_rating or 0
             product.full_stars = floor(rating)
             product.half_star = True if rating % 1 >= 0.5 else False
-        for p in all_products:
-            p.favorite = p.is_favorite(self.request.user)
+            product.favorite = False  # Default to False for all users
+
+        if self.request.user.is_authenticated:
+            for p in all_products:
+                p.favorite = p.is_favorite(self.request.user)
 
         data['all_products'] = all_products
         data['filters'] = ProductFilter(self.request.GET, queryset=self.get_queryset()).form
         return data
 
 
-class ProductCreateView(LoginRequiredMixin, CreateView):
+class ProductCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     template_name = 'product/create_product.html'
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('list-products')
+    permission_required = 'home.add_product'
 
     def form_valid(self, form):
         if form.is_valid():
@@ -96,17 +115,19 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     template_name = 'product/update_product.html'
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('list-products')
+    permission_required = 'home.change_product'
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     template_name = 'product/delete_product.html'
     model = Product
     success_url = reverse_lazy('list-products')
+    permission_required = 'home.delete_product'
 
 
 class ProductDetailView(DetailView):
@@ -114,11 +135,27 @@ class ProductDetailView(DetailView):
     model = Product
 
 
-class CategoryCreateView(CreateView):
+class CategoryCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     template_name = 'product/create_category.html'
     model = Category
     form_class = CategoryForm
     success_url = reverse_lazy('list-products')
+    permission_required = 'home.add_category'
+
+
+class CategoryUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    template_name = 'product/update_category.html'
+    model = Category
+    form_class = CategoryForm
+    success_url = reverse_lazy('list-products')
+    permission_required = 'home.change_category'
+
+
+class CategoryDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    template_name = 'product/update_category.html'
+    model = Category
+    success_url = reverse_lazy('list-products')
+    permission_required = 'home.delete_category'
 
 
 @login_required
@@ -135,7 +172,7 @@ def remove_from_favorites(request, product_id):
     return redirect('list-products')
 
 
-class FavoriteListView(ListView):
+class FavoriteListView(LoginRequiredMixin, ListView):
     model = Favorite
     template_name = 'product/favorite_products.html'
     context_object_name = 'favorite_products'
@@ -174,7 +211,7 @@ class ProductReviewView(CreateView):
         return super().form_valid(form)
 
 
-class ProductReviewUpdateView(UpdateView):
+class ProductReviewUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'product/update_review.html'
     form_class = ProductReviewForm
     model = ProductReview
@@ -185,7 +222,7 @@ class ProductReviewUpdateView(UpdateView):
             'pk': self.object.product.pk})  # foloseste primary key al produsului din instanta product_review
 
 
-class ProductReviewDeleteView(DeleteView):
+class ProductReviewDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'product/delete_review.html'
     model = ProductReview
     success_url = reverse_lazy('detail-products')

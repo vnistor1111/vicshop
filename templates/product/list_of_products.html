@@ -41,10 +41,12 @@
                                         <img class="card-img-top" src="{% static 'images/image-not-found.jpg' %}"
                                              alt="Product not found image" height="300">
                                     {% endif %}
-                                    {% if product.favorite %}
-                                          <a href="{% url 'remove_favorite' product.id %}">Remove from Favorites</a>
-                                    {% else %}
-                                      <a href="{% url 'add_favorite' product.id %}">Add to Favorites</a>
+                                    {% if request.user.is_authenticated %}
+                                        {% if product.favorite %}
+                                            <a href="{% url 'remove_favorite' product.id %}">Remove from Favorites</a>
+                                        {% else %}
+                                            <a href="{% url 'add_favorite' product.id %}">Add to Favorites</a>
+                                        {% endif %}
                                     {% endif %}
                                     <div style="overflow-y: hidden; height: 300px">
                                         <div class="card-body">
@@ -94,24 +96,26 @@
                                                                 class="bi bi-cart-plus"></i></button>
                                                     </form>
                                                 </div>
-                                                <div class="col text-center">
-                                                    <div class="dropdown">
-                                                        <button class="btn btn-primary dropdown-toggle mt-1"
-                                                                type="button"
-                                                                data-bs-toggle="dropdown" aria-expanded="false"
-                                                                style="font-size: 22px; padding: 1px 10px" title="Edit">
-                                                            <i class="bi bi-pencil-square"></i>
-                                                        </button>
-                                                        <ul class="dropdown-menu">
-                                                            <li><a class="dropdown-item"
-                                                                   href="{% url 'update-product' product.id %}">Update</a>
-                                                            </li>
-                                                            <li><a class="dropdown-item"
-                                                                   href="{% url 'delete-product' product.id %}">Delete</a>
-                                                            </li>
-                                                        </ul>
+                                                {% if request.user.is_authenticated %}
+                                                    <div class="col text-center">
+                                                        <div class="dropdown">
+                                                            <button class="btn btn-primary dropdown-toggle mt-1"
+                                                                    type="button"
+                                                                    data-bs-toggle="dropdown" aria-expanded="false"
+                                                                    style="font-size: 22px; padding: 1px 10px" title="Edit">
+                                                                <i class="bi bi-pencil-square"></i>
+                                                            </button>
+                                                            <ul class="dropdown-menu">
+                                                                <li><a class="dropdown-item"
+                                                                       href="{% url 'update-product' product.id %}">Update</a>
+                                                                </li>
+                                                                <li><a class="dropdown-item"
+                                                                       href="{% url 'delete-product' product.id %}">Delete</a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                {% endif %}
                                             </div>
                                         </div>
                                         <div style="text-align: center;">

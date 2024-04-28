@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import PasswordChangeView
 from django.core.mail import send_mail, EmailMessage
@@ -28,25 +29,25 @@ class UserCreateView(CreateView):
         return redirect('login')
 
 
-class UserUpdateView(UpdateView):
+class UserUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'userextend/update_user.html'
     model = SiteUser
     form_class = UserUpdateForm
     success_url = reverse_lazy('list-products')
 
 
-class UserDeleteView(DeleteView):
+class UserDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'userextend/delete_user.html'
     model = SiteUser
     success_url = reverse_lazy('list-products')
 
 
-class UserDetailView(DetailView):
+class UserDetailView(LoginRequiredMixin, DetailView):
     template_name = 'userextend/detail_user.html'
     model = SiteUser
 
 
-class UserChangePasswordView(PasswordChangeView):
+class UserChangePasswordView(LoginRequiredMixin, PasswordChangeView):
     form_class = PasswordResetForm
     success_url = reverse_lazy('details_user')
     template_name = 'userextend/change_password.html'
