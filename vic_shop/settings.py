@@ -27,7 +27,11 @@ SECRET_KEY = "django-insecure-n%0wxg)dq*xpwyzj&jiwuws5=sybqly@1=4(+1lo+t)=ar5@x*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    'vicshop.pythonanywhere.com',
+]
 
 
 # Application definition
