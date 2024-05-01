@@ -254,8 +254,8 @@ def add_to_cart(request):
     return redirect(request.META.get('HTTP_REFERER', reverse_lazy('cart')))
 
 
-# class ManageCategories(TemplateView):
-#     template_name = 'product/manage_category.html'
+class FAQ(TemplateView):
+    template_name = 'home/faq.html'
 
 
 class CategoryListView(ListView):

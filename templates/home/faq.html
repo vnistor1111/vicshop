@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}About Us{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="col-md-6 offset-md-3 mt-2 text-center">
+                <img src="{% static 'images/logo-monitor.jpeg' %}" alt="imagine home" width="300" height="300">
+            </div>
+
+            <div class="faq-container">
+                <h1 class="text-center mb-4">Frequently Asked Questions</h1>
+            </div>
+
+            <div class="faq-container">
+                
+                <div class="faq-item">
+                    <h3>What warranty comes with your products?</h3>
+                    <p>All our products come with a minimum one-year warranty. Extended warranty options are available
+                        for purchase.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Can I upgrade components of my computer after purchase?</h3>
+                    <p>Yes, most components can be upgraded. We recommend contacting our support team for compatibility
+                        advice before upgrading.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Do you offer technical support for software issues?</h3>
+                    <p>Yes, we provide technical support for software issues. Please reach out to our helpdesk with your
+                        query.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>How do I track my order?</h3>
+                    <p>Once your order is shipped, you will receive a tracking number via email that you can use to
+                        track your order on the courier's website.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>What is your return policy?</h3>
+                    <p>We offer a 30-day return policy on all products, provided they are returned in their original
+                        condition.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Do you offer international shipping?</h3>
+                    <p>At the moment we support shipping only in Romania. Shipping costs and times may vary depending on the destination.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>How can I cancel or change my order?</h3>
+                    <p>You can cancel or change your order within 24 hours of placing it by contacting our customer
+                        service team.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>What payment methods do you accept?</h3>
+                    <p>We accept various payment methods including credit/debit cards, PayPal, and bank transfers.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>How secure is shopping on NV-Shop? Is my data protected?</h3>
+                    <p>Your security is our priority. We use SSL encryption to protect your data and ensure safe online
+                        transactions.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Can I get a discount on bulk orders?</h3>
+                    <p>Yes, discounts on bulk orders are available. Please contact our sales team for more
+                        information.</p>
+                </div>
+                
+                <div class="contact-us-container">
+                    <a href="{% url 'contact' %}" class="contact-us-btn">Have another question? Contact us!</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+

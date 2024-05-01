@@ -67,6 +67,8 @@
     margin-right: 20px;
 }
 
+/* product specs */
+
 .bi.bi-star-fill {
     color: gold;
 }
@@ -91,22 +93,24 @@
     min-height: 50px;
 }
 
-.btn-custom {
-        background-color: crimson;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        font-size: 16px;
-        border-radius: 5px;
-        transition: background-color 0.3s, color 0.3s;
-        cursor: pointer;
-    }
+/*manage categories*/
 
-.btn-custom:hover {
-    background-color: #a80000;
+.btn-custom-green {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+    cursor: pointer;
 }
 
-.btn-back {
+.btn-custom-green:hover {
+    background-color: darkgreen;
+}
+
+.btn-custom-red {
     background-color: crimson;
     color: white;
     padding: 10px 20px;
@@ -118,6 +122,81 @@
     display: inline-block;
 }
 
-.btn-back:hover {
+.btn-custom-red:hover {
     background-color: #a80000;
 }
+
+body {
+        font-family: 'Open Sans', sans-serif;
+        color: #333;
+        background-color: #f8f9fa;
+}
+
+/* faq */
+
+.container-fluid {
+    padding: 50px;
+}
+
+.faq-container {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-top: 30px;
+}
+
+.faq-item {
+    border-bottom: 1px solid #eee;
+    padding: 20px 0;
+}
+
+.faq-item h3 {
+    color: crimson;
+}
+
+.faq-item:last-child {
+    border-bottom: none;
+}
+
+@media (max-width: 512px) {
+    .faq-container {
+        padding: 10px;
+    }
+}
+
+.custom-navbar-image {
+    width: 80px; /* Full width */
+    height: 60px; /* Maintain aspect ratio */
+    border-radius: 50%; /* Circular image */
+}
+
+/* Container for the Contact Us Button */
+.contact-us-container {
+    text-align: center; /* Center the button */
+    margin-top: 20px; /* Space above the button */
+}
+
+/* Style for the Contact Us Button */
+.contact-us-btn {
+    background-color: crimson; /* Button background color */
+    color: white; /* Text color */
+    padding: 10px 20px; /* Padding around the text */
+    text-decoration: none; /* No underline on the text */
+    border: none; /* No border */
+    cursor: pointer; /* Cursor indicates clickable */
+    display: inline-block; /* Allows setting dimensions */
+    font-size: 18px; /* Size of the text */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+}
+
+/* Hover Effect for the Contact Us Button */
+.contact-us-btn:hover {
+    background-color: #d32f2f; /* Lighter shade on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Larger shadow on hover */
+    transform: translateY(-2px); /* Slight lift on hover */
+}
+
+

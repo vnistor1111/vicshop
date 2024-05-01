@@ -1,10 +1,13 @@
 {% extends 'base.html' %}
-{% block title %}Contact Us{% endblock %}
 {% load static %}
+{% block title %}Contact Us{% endblock %}
 {% block content %}
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-md-8 offset-md-2">
+                <div class="col-md-6 offset-md-3 mt-2 text-center">
+                    <img src="{% static 'images/nv-logo-alt.jpeg' %}" alt="imagine home" width="300" height="300">
+                </div>
                 <h1 class="display-4 text-center mt-2">Get in Touch</h1>
                 <h6 class="lead text-center mt-2">Have questions? Need assistance? Reach out to us!</h6>
                 <form method="post" class="contact-form">
