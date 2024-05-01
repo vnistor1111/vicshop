@@ -6,7 +6,7 @@
     padding: 15px;
     border-radius: 10px;
     background: #f9f9f9;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .contact-form .form-control {
@@ -38,13 +38,16 @@
 .navbar-nav .nav-link {
     color: white !important;
 }
+
 .navbar-brand {
     color: white !important;
 }
+
 .btn-outline-light {
     color: greenyellow !important;
     border-color: greenyellow !important;
 }
+
 .btn-outline-light:hover {
     color: #303030 !important;
     background-color: greenyellow !important;
@@ -58,6 +61,7 @@
     margin-right: 5px;
     vertical-align: middle;
 }
+
 .radio-inline label {
     display: inline-block;
     margin-right: 20px;
@@ -85,4 +89,35 @@
 .card-title {
     flex: 1;
     min-height: 50px;
+}
+
+.btn-custom {
+        background-color: crimson;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+        transition: background-color 0.3s, color 0.3s;
+        cursor: pointer;
+    }
+
+.btn-custom:hover {
+    background-color: #a80000;
+}
+
+.btn-back {
+    background-color: crimson;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-back:hover {
+    background-color: #a80000;
 }

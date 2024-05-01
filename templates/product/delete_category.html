@@ -1,10 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{%  extends 'base.html' %}
+{% load static %}
 
-</body>
-</html>
+{% block title %} Delete - {{ category }} {% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 gy-5">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-center"> Are you sure you want to delete this category: {{ category }} ?</h3>
+                    </div>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="card-body" style="text-align: center">
+                            <p>Total products that belong to this category: {{ category.products.count }}</p>
+                            <p><strong>All attached products for this category will also be deleted.</strong></p>
+                        </div>
+                        <div class="card-footer text-center">
+                            <button type="submit" class="btn-custom">DELETE</button>
+                            <a href="{% url 'manage_categories' %}" class="btn-back">Back to Category Management</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

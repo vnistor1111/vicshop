@@ -65,21 +65,6 @@ class ProductListView(ListView):
         prod_filter = ProductFilter(self.request.GET, queryset=products)
         return prod_filter.qs
 
-    # def get_context_data(self, **kwargs):
-    #     data = super().get_context_data(**kwargs)
-    #     all_products = self.get_queryset().annotate(average_rating=Avg('reviews__rating'))
-    #
-    #     for product in all_products:
-    #         rating = product.average_rating or 0
-    #         product.full_stars = floor(rating)
-    #         product.half_star = True if rating % 1 >= 0.5 else False
-    #     for p in all_products: #problem
-    #         p.favorite = p.is_favorite(self.request.user)
-    #
-    #     data['all_products'] = all_products
-    #     data['filters'] = ProductFilter(self.request.GET, queryset=self.get_queryset()).form
-    #     return data
-
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         all_products = self.get_queryset().annotate(average_rating=Avg('reviews__rating'))
@@ -147,14 +132,14 @@ class CategoryUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView
     template_name = 'product/update_category.html'
     model = Category
     form_class = CategoryForm
-    success_url = reverse_lazy('list-products')
+    success_url = reverse_lazy('manage_categories')
     permission_required = 'home.change_category'
 
 
 class CategoryDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
-    template_name = 'product/update_category.html'
+    template_name = 'product/delete_category.html'
     model = Category
-    success_url = reverse_lazy('list-products')
+    success_url = reverse_lazy('manage_categories')
     permission_required = 'home.delete_category'
 
 
@@ -267,3 +252,25 @@ def add_to_cart(request):
             messages.success(request, 'Item added to cart successfully.')
 
     return redirect(request.META.get('HTTP_REFERER', reverse_lazy('cart')))
+
+
+# class ManageCategories(TemplateView):
+#     template_name = 'product/manage_category.html'
+
+
+class CategoryListView(ListView):
+    template_name = 'product/manage_category.html'
+    model = Category
+    context_object_name = 'all_categories'
+    paginate_by = 50
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Create a dictionary to hold products for each category
+        category_products = {}
+        for category in context['all_categories']:
+            # Fetch active products for each category and store them in the dictionary
+            category_products[category.id] = category.products.filter(is_active=True)
+        # Add the dictionary to the context
+        context['category_products'] = category_products
+        return context

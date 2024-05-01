@@ -38,7 +38,7 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')
     created_by = models.ForeignKey(SiteUser, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     description = models.TextField()
