@@ -199,4 +199,42 @@ body {
     transform: translateY(-2px); /* Slight lift on hover */
 }
 
+/* Product List Favorite Buttons */
 
+.bi.bi-heart{
+    color: darksalmon;
+}
+
+.bi.bi-heart-fill{
+    color: darksalmon;
+}
+
+/* Create Product Page */
+
+.create-product-form .card {
+    background-color: #303030; /* Custom form background color */
+    color: #ffffff; /* Light text color for contrast */
+    border-radius: 0.5rem;
+}
+
+.create-product-form .card-header {
+    background-color: #0e3768; /* Match header with the form background */
+    color: #ffffff; /* Light text color for contrast */
+}
+
+.create-product-form .form-control, .create-product-form .form-select {
+    background-color: #ffffff; /* Light background for input fields for visibility */
+    color: #333333; /* Dark text color for input fields */
+    border-radius: 0.25rem;
+    border: 1px solid #ced4da;
+}
+
+.create-product-form .btn-success {
+    background-color: red; /* Keep the button color or change as needed */
+    border-color: crimson;
+}
+
+.create-product-form .btn-success:hover {
+    background-color: crimson;
+    border-color: darkred;
+}

@@ -13,11 +13,11 @@
         </button>
            <!-- Navbar links -->
         <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav" style="flex: 1;">
                 <!-- Search Bar -->
-                <li class="nav-searchbar" style="flex-grow: 1; margin-left: 1rem; margin-right: 2rem;">
+                <li class="nav-searchbar" style="margin-left: 1rem; margin-right: 2rem; width: 50%;">
                     <form method="get" class="d-flex" role="search" action="{% url 'list-products' %}">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="name" style="flex-grow: 1;">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="name" style="width: 100%;">
                         <button class="btn btn-outline-light" type="submit">Search</button>
                     </form>
                 </li>
@@ -56,13 +56,31 @@
                 </li>
             </ul>
 
+
+
             <ul class="navbar-nav ms-auto d-flex align-items-center">
+                <!-- Favorite Icon -->
+                {% if user.is_authenticated %}
+                <li class="nav-item" style="position: relative; top: 2px; margin-right: 20px;"> <!-- Adjust the right margin to create space -->
+                    <a class="nav-link active" href="{% url 'list_of_favorites' %}" role="button">
+                        <i class="bi bi-heart-fill" style="font-size: 1.5rem;"></i>
+                    </a>
+                </li>
+{#                {% else %}#}
+{#                <li class="nav-item" style="position: relative; top: 2px; margin-right: 20px;">#}
+{#                    <a class="nav-link active" href="{% url 'login' %}" role="button">#}
+{#                        <i class="bi bi-heart-fill" style="font-size: 1.5rem;"></i>#}
+{#                    </a>#}
+{#                </li>#}
+                {% endif %}
                 <!-- Cart Icon -->
                 {% if user.is_authenticated %}
-                <li class="nav-item">
+                <li class="nav-item" style="position: relative;">
                     <a class="nav-link active" href="{% url 'cart' %}" role="button">
                         {% if cart_item_count %}
-                            <span class="badge rounded-pill bg-danger">{{ cart_item_count }}</span>
+                            <span class="badge rounded-pill bg-danger" style="position: absolute; top: 28px; right: 17px; transform: translate(-50%, -50%);">
+                                {{ cart_item_count }}
+                            </span>
                         {% endif %}
                         <i class="bi bi-cart-fill" style="color: green; font-size: 1.5rem;"></i>
                     </a>

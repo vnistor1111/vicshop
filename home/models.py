@@ -5,18 +5,9 @@ from django.utils import timezone
 
 # User
 class SiteUser(AbstractUser):
-    # user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False)
-    # email = models.EmailField(unique=True, null=False, blank=False)
-    # username = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=11)
     address = models.CharField(max_length=255, blank=True)
     city = models.CharField(max_length=150, blank=True)
-
-    # date_joined = models.DateTimeField(auto_now_add=True)
-    # is_active = models.BooleanField(default=True)
-    # is_staff = models.BooleanField(default=False)
-    # USERNAME_FIELD = 'email'
-    # REQUIRED_FIELDS = []
 
     def __str__(self):
         return self.username
@@ -30,6 +21,7 @@ class Category(models.Model):
 
     class Meta:
         verbose_name_plural = 'Categories'
+        ordering = ['name']
 
     def __str__(self):
         return self.name
@@ -138,7 +130,3 @@ class CartItem(models.Model):
 
     def __str__(self):
         return f'{self.quantity} x {self.product.name}'
-
-
-
-

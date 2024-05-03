@@ -41,40 +41,46 @@
                                         <img class="card-img-top" src="{% static 'images/image-not-found.jpg' %}"
                                              alt="Product not found image" height="300">
                                     {% endif %}
-                                    {% if request.user.is_authenticated %}
-                                        {% if product.favorite %}
-                                            <a href="{% url 'remove_favorite' product.id %}">Remove from Favorites</a>
-                                        {% else %}
-                                            <a href="{% url 'add_favorite' product.id %}">Add to Favorites</a>
-                                        {% endif %}
-                                    {% endif %}
                                     <div style="overflow-y: hidden; height: 300px">
                                         <div class="card-body">
                                             <h5 class="card-title">{{ product.name }}</h5>
                                             <br>
                                             <ul class="list-group list-group-flush">
                                                 <li class="list-group-item">
-                                                    <div class="average-rating">
+                                                    <div class="average-rating" style="display: flex; justify-content: space-between; align-items: center;">
                                                         <span title="{{ product.average_rating }}/5">
                                                             {% if product.average_rating == 0 or product.average_rating is none %}
-                                                                <i class="bi bi-star"></i> <i class="bi bi-star"></i> <i class="bi bi-star"></i> <i class="bi bi-star"></i> <i class="bi bi-star"></i> (No reviews yet)
+                                                                {% for i in "12345" %}
+                                                                    <i class="bi bi-star"></i>
+                                                                {% endfor %} (No reviews yet)
+{#                                                                <i class="bi bi-star"></i> <i class="bi bi-star"></i> <i class="bi bi-star"></i> <i class="bi bi-star"></i> <i class="bi bi-star"></i> (No reviews yet)#}
                                                             {% else %}
-                                                                {% for i in ""|rjust:product.full_stars %}
-                                                                    <i class="bi bi-star-fill"></i>
+                                                                {% for i in "12345" %}
+                                                                    {% if forloop.counter <= product.full_stars %}
+                                                                        <i class="bi bi-star-fill"></i>
+                                                                    {% elif forloop.counter == product.full_stars|add:"1" and product.half_star %}
+                                                                        <i class="bi bi-star-half"></i>
+                                                                    {% else %}
+                                                                        <i class="bi bi-star"></i>
+                                                                    {% endif %}
                                                                 {% endfor %}
-                                                                {% if product.half_star %}
-                                                                    <i class="bi bi-star-half"></i>
-                                                                {% endif %}
                                                             {% endif %}
                                                         </span>
+                                                        {% if request.user.is_authenticated %}
+                                                            <div>
+                                                                {% if product.favorite %}
+                                                                    <a href="{{ product.remove_favorite_url }}"><i class="bi bi-heart-fill" title="Remove From Favorites"></i></a>
+                                                                {% else %}
+                                                                    <a href="{{ product.add_favorite_url }}"><i class="bi bi-heart" title="Add To Favorites"></i></a>
+                                                                {% endif %}
+                                                            </div>
+                                                        {% endif %}
                                                     </div>
                                                 </li>
                                                 <li class="list-group-item"> Category: {{ product.category }}</li>
-                                                <li class="list-group-item"
-                                                    style="font-size: 16px; font-weight: bold; color: orangered">
+                                                <li class="list-group-item" style="font-size: 16px; font-weight: bold; color: orangered">
                                                     Price: {{ product.price }} RON
                                                 </li>
-
                                             </ul>
                                         </div>
                                     </div>

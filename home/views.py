@@ -5,8 +5,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.mail import send_mail
 from django.db.models import Avg
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, TemplateView, ListView, UpdateView, DeleteView, DetailView
 
 import secret
@@ -69,11 +70,15 @@ class ProductListView(ListView):
         data = super().get_context_data(**kwargs)
         all_products = self.get_queryset().annotate(average_rating=Avg('reviews__rating'))
 
+        filter_params = self.request.GET.urlencode()
+
         for product in all_products:
             rating = product.average_rating or 0
             product.full_stars = floor(rating)
             product.half_star = True if rating % 1 >= 0.5 else False
             product.favorite = False  # Default to False for all users
+            product.add_favorite_url = f"{reverse('add_favorite', args=[product.id])}?{filter_params}"
+            product.remove_favorite_url = f"{reverse('remove_favorite', args=[product.id])}?{filter_params}"
 
         if self.request.user.is_authenticated:
             for p in all_products:
@@ -147,23 +152,42 @@ class CategoryDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView
 def add_to_favorites(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
     Favorite.objects.get_or_create(user=request.user, product=product)
-    return redirect('list-products')  # Redirect to the product list page
+    filter_params = request.GET.urlencode()
+    return HttpResponseRedirect(f"{reverse('list-products')}?{filter_params}")
+    # return redirect('list-products')  # Redirect to the product list page
 
 
 @login_required
 def remove_from_favorites(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
     Favorite.objects.filter(user=request.user, product=product).delete()
-    return redirect('list-products')
+    filter_params = request.GET.urlencode()
+    return HttpResponseRedirect(f"{reverse('list-products')}?{filter_params}")
+    # return redirect('list-products')
 
 
 class FavoriteListView(LoginRequiredMixin, ListView):
     model = Favorite
-    template_name = 'product/favorite_products.html'
-    context_object_name = 'favorite_products'
+    template_name = 'product/list_of_favorites.html'
+    context_object_name = 'list_of_favorites'
 
     def get_queryset(self):
-        return Favorite.objects.filter(user=self.request.user).select_related('product')
+        return Favorite.objects.filter(user=self.request.user).select_related('product').annotate(
+            average_rating=Avg('product__reviews__rating'))
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        favorites = list(self.get_queryset())
+
+        for favorite in favorites:
+            rating = favorite.average_rating or 0
+            print(f"Product: {favorite.product.name}, Average Rating: {rating}")  # Debug print statement
+            favorite.product.full_stars = floor(rating)
+            favorite.product.half_star = rating % 1 >= 0.5
+            favorite.product.favorite = True
+
+        data['list_of_favorites'] = favorites
+        return data
 
 
 def product_category_search(request, category_slug):
