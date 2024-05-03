@@ -48,7 +48,7 @@
                                             <ul class="list-group list-group-flush">
                                                 <li class="list-group-item">
                                                     <div class="average-rating" style="display: flex; justify-content: space-between; align-items: center;">
-                                                        <span title="{{ product.average_rating }}/5">
+                                                        <span title="{{ product.formatted_average_rating }}/5">
                                                             {% if product.average_rating == 0 or product.average_rating is none %}
                                                                 {% for i in "12345" %}
                                                                     <i class="bi bi-star"></i>

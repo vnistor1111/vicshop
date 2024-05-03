@@ -238,3 +238,14 @@ body {
     background-color: crimson;
     border-color: darkred;
 }
+
+/* others */
+
+.text-crimson {
+    color: crimson;
+}
+
+.card-header.bg-dark-blue {
+    background-color: #0e3768;
+}
+

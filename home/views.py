@@ -75,10 +75,16 @@ class ProductListView(ListView):
         for product in all_products:
             rating = product.average_rating or 0
             product.full_stars = floor(rating)
-            product.half_star = True if rating % 1 >= 0.5 else False
+            product.half_star = rating % 1 >= 0.5
             product.favorite = False  # Default to False for all users
             product.add_favorite_url = f"{reverse('add_favorite', args=[product.id])}?{filter_params}"
             product.remove_favorite_url = f"{reverse('remove_favorite', args=[product.id])}?{filter_params}"
+
+            # Format the average rating to two decimal places as a string
+            if product.average_rating:
+                product.formatted_average_rating = "{:.2f}".format(product.average_rating)
+            else:
+                product.formatted_average_rating = "No reviews yet"
 
         if self.request.user.is_authenticated:
             for p in all_products:
@@ -172,18 +178,25 @@ class FavoriteListView(LoginRequiredMixin, ListView):
     context_object_name = 'list_of_favorites'
 
     def get_queryset(self):
-        return Favorite.objects.filter(user=self.request.user).select_related('product').annotate(
+        queryset = Favorite.objects.filter(user=self.request.user).select_related('product').annotate(
             average_rating=Avg('product__reviews__rating'))
+        return queryset
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         favorites = list(self.get_queryset())
 
         for favorite in favorites:
-            rating = favorite.average_rating or 0
-            favorite.product.full_stars = floor(rating)
-            favorite.product.half_star = rating % 1 >= 0.5
+            if favorite.average_rating is not None:
+                formatted_rating = "{:.2f}".format(favorite.average_rating)
+            else:
+                formatted_rating = None
+
+            favorite.product.formatted_average_rating = formatted_rating
+            favorite.product.full_stars = floor(favorite.average_rating or 0)
+            favorite.product.half_star = (favorite.average_rating or 0) % 1 >= 0.5
             favorite.product.favorite = True
+            favorite.product.has_reviews = favorite.product.reviews.exists()
 
         data['list_of_favorites'] = favorites
         return data
@@ -277,6 +290,40 @@ def add_to_cart(request):
     return redirect(request.META.get('HTTP_REFERER', reverse_lazy('cart')))
 
 
+def update_cart_item(request):
+    if request.method == 'POST':
+        product_id = request.POST.get('product_id')
+        quantity_change = int(request.POST.get('quantity_change'))
+        cart = get_open_cart(request)
+        cart_item = CartItem.objects.get(cart=cart, product_id=product_id)
+        cart_item.quantity += quantity_change
+        if cart_item.quantity > 0:
+            cart_item.save()
+        else:
+            cart_item.delete()
+        messages.success(request, 'Cart updated successfully.')
+    return redirect('cart')
+
+
+@login_required
+def remove_from_cart(request):
+    if request.method == 'POST':
+        product_id = request.POST.get('product_id')
+        cart = get_open_cart(request)
+        CartItem.objects.filter(cart=cart, product_id=product_id).delete()
+        messages.info(request, 'Item removed from cart.')
+    return redirect('cart')
+
+
+@login_required
+def clear_cart(request):
+    if request.method == 'POST':
+        cart = get_open_cart(request)
+        cart.cartitem_set.all().delete()
+        messages.info(request, 'All items have been removed from your cart.')
+    return redirect('cart')
+
+
 class FAQ(TemplateView):
     template_name = 'home/faq.html'
 
@@ -294,3 +341,4 @@ class CategoryListView(ListView):
             category_products[category.id] = category.products.filter(is_active=True)
         context['category_products'] = category_products
         return context
+

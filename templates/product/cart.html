@@ -5,51 +5,43 @@
 {% block content %}
     <div class="container my-5">
         <div class="row justify-content-center">
-            <div class="col-lg-8">
+            <div class="col-lg-10">
                 <div class="card border-0 shadow">
-                    <div class="card-header text-white" style="background-color: #0056b3;">
-                        <h4 class="text-center mb-0">Your Cart</h4>
+                    <div class="card-header bg-dark-blue text-white">
+                        <h4 class="text-center mb-0">Shopping Cart</h4>
                     </div>
                     <ul class="list-group list-group-flush">
                         {% for cart_item in cart.cartitem_set.all %}
                             <li class="list-group-item">
                                 <div class="row align-items-center">
-                                    <div class="col-md-4">
-                                        <img src="{{ cart_item.product.image.url }}" alt="{{ cart_item.product.name }}"
-                                             class="img-fluid">
+                                    <div class="col-md-2">
+                                        <img src="{{ cart_item.product.image.url }}" alt="{{ cart_item.product.name }}" class="img-fluid rounded">
                                     </div>
-                                        <div class="col-md-8">
-                                            <div class="card mb-4 box-shadow">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">{{ cart_item.product.name }}</h5>
-                                                    <p class="card-text">Quantity: {{ cart_item.quantity }}</p>
-                                                    <p class="card-text">Price: {{ cart_item.product.price }} RON</p>
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <div class="btn-group">
-                                                            <form action="{% url 'add_to_cart' %}" method="post" class="me-2">
-                                                                {% csrf_token %}
-                                                                <input type="hidden" name="product_id" value="{{ cart_item.product.id }}">
-                                                                <input type="hidden" name="quantity" value="-1">
-                                                                <button type="submit" class="btn btn-outline-danger btn-sm">-</button>
-                                                            </form>
-                                                            <input type="number" name="quantity" class="form-control form-control-sm text-center" value="{{ cart_item.quantity }}" min="1">
-                                                            <form action="{% url 'add_to_cart' %}" method="post" class="ms-2">
-                                                                {% csrf_token %}
-                                                                <input type="hidden" name="product_id" value="{{ cart_item.product.id }}">
-                                                                <input type="hidden" name="quantity" value="+1">
-                                                                <button type="submit" class="btn btn-outline-success btn-sm">+</button>
-                                                            </form>
-                                                        </div>
-                                                        <form action="{% url 'add_to_cart' %}" method="post">
-                                                            {% csrf_token %}
-                                                            <input type="hidden" name="product_id" value="{{ cart_item.product.id }}">
-                                                            <input type="hidden" name="quantity" value="-{{ cart_item.quantity }}">
-                                                            <button type="submit" class="btn btn-outline-danger btn-sm">Remove</button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                    <div class="col-md-4">
+                                        <h5 class="card-title">{{ cart_item.product.name }}</h5>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="d-flex justify-content-end align-items-center">
+                                            <form action="{% url 'update_cart_item' %}" method="post" class="form-inline">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="product_id" value="{{ cart_item.product.id }}">
+                                                <input type="hidden" name="quantity_change" value="-1">
+                                                <button type="submit" class="btn btn-outline-danger btn-sm me-2">-</button>
+                                            </form>
+                                            <span class="badge bg-secondary">{{ cart_item.quantity }}</span>
+                                            <form action="{% url 'update_cart_item' %}" method="post" class="form-inline ms-2">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="product_id" value="{{ cart_item.product.id }}">
+                                                <input type="hidden" name="quantity_change" value="1">
+                                                <button type="submit" class="btn btn-outline-success btn-sm ms-2">+</button>
+                                            </form>
+                                            <form action="{% url 'remove_from_cart' %}" method="post" class="form-inline ms-4">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="product_id" value="{{ cart_item.product.id }}">
+                                                <button type="submit" class="btn btn-outline-danger btn-sm">Remove</button>
+                                            </form>
                                         </div>
+                                    </div>
                                 </div>
                             </li>
                         {% empty %}
@@ -58,10 +50,12 @@
                     </ul>
                     <div class="card-footer bg-white">
                         <div class="text-center">
-                            <h5 class="mb-3" style="color: #17a2b8;">Total: {{ total_price }} RON</h5>
-                            <a href="{% url 'list-products' %}" class="btn btn-outline-primary btn-sm">Go to Product
-                                List</a>
-                            <a href="{% url 'home_page' %}" class="btn btn-outline-success btn-sm">Checkout</a>
+                            <h5 class="mb-3 text-crimson">Total: {{ total_price }} RON</h5>
+                            <a href="{% url 'list-products' %}" class="btn btn-outline-primary btn-sm">Continue Shopping</a>
+                            <form action="{% url 'clear_cart' %}" method="post" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-outline-success btn-sm">Checkout</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -69,3 +63,4 @@
         </div>
     </div>
 {% endblock %}
+
