@@ -181,7 +181,6 @@ class FavoriteListView(LoginRequiredMixin, ListView):
 
         for favorite in favorites:
             rating = favorite.average_rating or 0
-            print(f"Product: {favorite.product.name}, Average Rating: {rating}")  # Debug print statement
             favorite.product.full_stars = floor(rating)
             favorite.product.half_star = rating % 1 >= 0.5
             favorite.product.favorite = True
@@ -290,11 +289,8 @@ class CategoryListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Create a dictionary to hold products for each category
         category_products = {}
         for category in context['all_categories']:
-            # Fetch active products for each category and store them in the dictionary
             category_products[category.id] = category.products.filter(is_active=True)
-        # Add the dictionary to the context
         context['category_products'] = category_products
         return context
