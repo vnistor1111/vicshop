@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %} Update User {% endblock %}
 
 {% block content %}
-    <div class="container-fluid">
+    
+<div class="container-fluid">
         <div class="row">
             <div class="col-md-6 offset-md-3 gy-5">
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header unique-header">
                         <h3 class="text-center">Update - {{ siteuser }}</h3>
                     </div>
                     <form method="post" enctype="multipart/form-data">
@@ -16,13 +17,12 @@
                             {{ form }}
                         </div>
                         <div class="card-footer text-center">
-                            <button type="submit" class="btn btn-success">Update</button>
-                            <a href="{% url 'details_user' request.user.id %}" class="btn btn-danger">Cancel</a>
+                            <button type="submit" class="btn unique-btn">Update</button>
+                            <a href="{% url 'details_user' request.user.id %}" class="btn unique-cancel-btn">Cancel</a>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-
     </div>
 {% endblock %}

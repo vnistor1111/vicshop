@@ -353,3 +353,25 @@ body {
     color: white;
 }
 
+/* Update User */
+
+.unique-header {
+    background-color: #0e3768 !important;
+    color: white !important;
+}
+.unique-btn {
+    background-color: #28a745 !important;
+    color: white !important;
+}
+.unique-btn:hover {
+    background-color: #218838 !important;
+}
+.unique-cancel-btn {
+    background-color: #dc3545 !important;
+    color: white !important;
+}
+.unique-cancel-btn:hover {
+    background-color: #c82333 !important;
+}
+
+

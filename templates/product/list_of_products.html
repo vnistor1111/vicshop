@@ -104,7 +104,6 @@
                                                 </div>
                                                 {% if request.user.is_authenticated %}
                                                     {% if perms.home.change_product or perms.home.delete_product %}
-{#                                                    {% if request.user.has_perm('home.change_product') or request.user.has_perm('home.delete_product') %}#}
                                                         <div class="col text-center">
                                                             <div class="dropdown">
                                                                 <button class="btn btn-primary dropdown-toggle mt-1"
