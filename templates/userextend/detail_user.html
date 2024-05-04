@@ -2,9 +2,11 @@
 {% load static %}
 {% block title %} User Details{% endblock %}
 {% block content %}
+    
+<div id="userDetailsPage">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-6 offset-md-3 gy-5">
+            <div class="col-md-8 offset-md-2 gy-5"> <!-- Adjusted column size for a larger card -->
                 <div class="card text-center">
                     <div class="card-header">
                         User Details
@@ -13,7 +15,6 @@
                         <div class="card-body">
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item"><h5 class="card-title">{{ siteuser.first_name }} {{ siteuser.last_name }}</h5></li>
-{#                                <li class="list-group-item">Email: {{ siteuser.username }}</li>#}
                                 <li class="list-group-item">Email: {{ siteuser.email }}</li>
                                 <li class="list-group-item">Phone Number: {{ siteuser.phone_number }}</li>
                                 <li class="list-group-item">City: {{ siteuser.city }}</li>
@@ -27,13 +28,14 @@
                         <p> Created at: {{ siteuser.date_joined|date:"d-m-Y H:i:s" }}</p>
                     </div>
                 </div>
-                <div style="text-align: center; margin-top:10px;">
-                    <a href="{% url 'update_user' request.user.id %}" class="btn btn-primary">Update user details</a>
-                    <a href="{% url 'profile_reset_password' request.user.id %}" class="btn btn-primary">Change password</a>
-                    <a href="{% url 'delete_user' request.user.id %}" class="btn btn-primary">Delete account</a>
-                    <a href="{% url 'home_page' %}" class="btn btn-primary">Back to home page</a>
+                <div class="d-flex justify-content-center align-items-center flex-wrap" style="margin-top:10px;">
+                    <a href="{% url 'update_user' request.user.id %}" class="btn btn-primary m-2">Update user details</a>
+                    <a href="{% url 'profile_reset_password' request.user.id %}" class="btn btn-warning m-2">Change password</a>
+                    <a href="{% url 'delete_user' request.user.id %}" class="btn btn-danger m-2">Delete account</a>
                 </div>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}
+

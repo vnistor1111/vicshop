@@ -239,7 +239,7 @@ body {
     border-color: darkred;
 }
 
-/* others */
+/* Others */
 
 .text-crimson {
     color: crimson;
@@ -247,5 +247,109 @@ body {
 
 .card-header.bg-dark-blue {
     background-color: #0e3768;
+}
+
+/* User Details */
+
+#userDetailsPage .container-fluid {
+    max-width: 1200px; /* Larger container */
+}
+#userDetailsPage .card {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    margin: 2rem auto; /* Centered card with margin */
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    border: none; /* Remove default border */
+}
+#userDetailsPage .card-header {
+    background-color: #0e3768; /* Bootstrap primary color */
+    color: white;
+    font-size: 24px;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+}
+#userDetailsPage .list-group-item {
+    border: none; /* Remove list group borders */
+    font-size: 16px;
+}
+#userDetailsPage .card-footer {
+    background-color: #f7f7f7;
+    color: #666;
+    font-size: 14px;
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+}
+#userDetailsPage .btn {
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 16px;
+    color: white;
+    margin: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+#userDetailsPage .btn-primary:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+#userDetailsPage .btn-warning:hover {
+    background-color: #e0a800; /* Darker yellow on hover */
+}
+#userDetailsPage .btn-danger:hover {
+    background-color: #c82333; /* Darker red on hover */
+}
+
+/* Update Product */
+
+.update-product-page .custom-card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 5px; /* 5px rounded corners */
+}
+
+.update-product-page .custom-card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.update-product-page .custom-card-header {
+    background-color: #0e3768;
+    border-bottom: 1px solid #e3e6f0;
+    color: white; /* Set header text to white */
+}
+
+.update-product-page .custom-form {
+    padding: 20px;
+}
+
+.update-product-page .custom-card-body {
+    padding: 2em;
+}
+
+.update-product-page .custom-btn-update {
+    background-color: #28a745;
+    color: white; /* Button text is already white */
+    padding: 10px 24px;
+    margin: 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+.update-product-page .custom-btn-cancel {
+    background-color: #dc3545;
+    color: white; /* Button text is already white */
+    padding: 10px 24px;
+    margin: 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+.update-product-page .custom-btn-update:hover {
+    background-color: #218838;
+    color: white;
+}
+
+.update-product-page .custom-btn-cancel:hover {
+    background-color: #c82333;
+    color: white;
 }
 

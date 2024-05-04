@@ -3,26 +3,27 @@
 {% block title %} Update Product {% endblock %}
 
 {% block content %}
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-6 offset-md-3 gy-5">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="text-center">Update - {{ product }}</h3>
+    <div class="update-product-page">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6 offset-md-3 gy-5">
+                    <div class="card custom-card">
+                        <div class="card-header custom-card-header">
+                            <h3 class="text-center">Update - {{ product.name }}</h3>
+                        </div>
+                        <form method="post" enctype="multipart/form-data" class="custom-form">
+                            {% csrf_token %}
+                            <div class="card-body custom-card-body">
+                                {{ form.as_p }}
+                            </div>
+                            <div class="card-footer custom-card-footer text-center">
+                                <button type="submit" class="btn custom-btn-update">Update</button>
+                                <a href="{% url 'list-products' %}" class="btn custom-btn-cancel">Cancel</a>
+                            </div>
+                        </form>
                     </div>
-                    <form method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <div class="card-body">
-                            {{ form }}
-                        </div>
-                        <div class="card-footer text-center">
-                            <button type="submit" class="btn btn-success">Update</button>
-                            <a href="{% url 'list-products' %}" class="btn btn-danger">Cancel</a>
-                        </div>
-                    </form>
                 </div>
             </div>
         </div>
-
     </div>
 {% endblock %}
