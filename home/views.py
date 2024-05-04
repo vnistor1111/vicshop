@@ -202,6 +202,22 @@ class FavoriteListView(LoginRequiredMixin, ListView):
         return data
 
 
+class CategoryListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    template_name = 'product/manage_category.html'
+    model = Category
+    context_object_name = 'all_categories'
+    paginate_by = 50
+    permission_required = 'home.view_category'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category_products = {}
+        for category in context['all_categories']:
+            category_products[category.id] = category.products.filter(is_active=True)
+        context['category_products'] = category_products
+        return context
+
+
 def product_category_search(request, category_slug):
     category = get_object_or_404(Category, slug=category_slug)
 
@@ -290,6 +306,7 @@ def add_to_cart(request):
     return redirect(request.META.get('HTTP_REFERER', reverse_lazy('cart')))
 
 
+@login_required
 def update_cart_item(request):
     if request.method == 'POST':
         product_id = request.POST.get('product_id')
@@ -326,19 +343,3 @@ def clear_cart(request):
 
 class FAQ(TemplateView):
     template_name = 'home/faq.html'
-
-
-class CategoryListView(ListView):
-    template_name = 'product/manage_category.html'
-    model = Category
-    context_object_name = 'all_categories'
-    paginate_by = 50
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        category_products = {}
-        for category in context['all_categories']:
-            category_products[category.id] = category.products.filter(is_active=True)
-        context['category_products'] = category_products
-        return context
-

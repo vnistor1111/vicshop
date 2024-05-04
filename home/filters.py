@@ -33,7 +33,6 @@ class ProductFilter(django_filters.FilterSet):
                                                  widget=forms.DateInput(
                                                      attrs={'class': 'form-control', 'type': 'date'}))
 
-
     YES_OR_NO = (
         (True, 'Yes'),
         (False, 'No')
