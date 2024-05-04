@@ -99,16 +99,6 @@ class Contact(models.Model):
         return self.subject
 
 
-class NewsletterSubscriber(models.Model):
-    email = models.EmailField()
-
-
-class Newsletter(models.Model):
-    subject = models.CharField(max_length=255)
-    body = models.TextField()
-    send_datetime = models.DateTimeField(default=timezone.now)
-
-
 # Cart
 
 class Cart(models.Model):
