@@ -1,5 +1,6 @@
 import django_filters
 from django import forms
+from django.db.models.functions import Lower
 
 from home.models import Product, Category
 
@@ -62,11 +63,13 @@ class ProductFilter(django_filters.FilterSet):
         sort_options = {
             'price_asc': 'price',
             'price_desc': '-price',
-            'alphabetical_asc': 'name',
-            'alphabetical_desc': '-name',
+            'alphabetical_asc': 'lower_name',
+            'alphabetical_desc': '-lower_name',
             'created_at_asc': 'created',
             'created_at_desc': '-created',
         }
+        if 'alphabetical' in value:
+            queryset = queryset.annotate(lower_name=Lower('name'))
         return queryset.order_by(sort_options.get(value, 'id'))
 
     class Meta:
