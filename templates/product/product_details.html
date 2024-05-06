@@ -84,8 +84,19 @@
                 </div>
 
             </div>
-            <div style="text-align: center; margin-top:10px;">
-                <a href="{% url 'list-products' %}" class="btn btn-primary">Back to product list</a>
+            <div style="text-align: center; margin-top:10px; display: flex; justify-content: center; gap: 10px;">
+                {% if request.user.is_authenticated %}
+                <form action="{% url 'add_to_cart' %}" method="post" style="margin: 0;">
+                    {% csrf_token %}
+                    <input type="hidden" name="product_id" value="{{ product.id }}">
+                    <input type="hidden" name="quantity" value="1">
+                    <button type="submit" class="btn btn-primary">Add to Cart</button>
+                </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-primary">Add to Cart</a>
+                {% endif %}
+            
+                <a href="{% url 'list-products' %}" class="btn btn-danger">Back to product list</a>
             </div>
             <br>
         </div>

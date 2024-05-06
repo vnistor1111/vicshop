@@ -55,18 +55,6 @@ class SiteUserForm(UserCreationForm):
         self.fields['password2'].widget.attrs.update(
             {'class': 'form-control', 'placeholder': 'Please enter your password confirmation'})
 
-    # def clean(self):
-    #     cleaned_data = super().clean()
-    #     print(cleaned_data)
-    #
-    #     get_email = cleaned_data['username']
-    #
-    #     check_emails = SiteUser.objects.filter(email=get_email)
-    #     if check_emails:
-    #         msg = 'Email already exists in database!'
-    #         self.errors['email'] = self.error_class([msg])
-    #
-    #     return cleaned_data
 
     def clean_username(self):
         username = self.cleaned_data.get('username')

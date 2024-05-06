@@ -374,4 +374,107 @@ body {
     background-color: #c82333 !important;
 }
 
+/* Checkout */
 
+#unique-checkout-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem;
+    background: #f7f7f7;
+}
+.unique-checkout-card {
+    width: 100%;
+    max-width: 500px;
+    background: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.unique-checkout-header {
+    background-color: #004085; /* Dark blue background */
+    color: #fff; /* White text */
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+.unique-checkout-form-group {
+    margin-bottom: 1rem;
+}
+.unique-checkout-form-control {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    line-height: 1.25;
+    color: #495057;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+}
+.unique-checkout-form-control:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+.unique-checkout-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    cursor: pointer;
+    text-align: center;
+    display: inline-block;
+    margin-top: 1rem;
+    text-decoration: none;
+    width: 100%; /* Makes both buttons equal width */
+}
+.unique-checkout-btn-confirm {
+    background-color: #007bff;
+    border: 1px solid #007bff;
+    color: white;
+}
+.unique-checkout-btn-confirm:hover {
+    background-color: #0069d9;
+    border-color: #0062cc;
+}
+.unique-checkout-btn-danger {
+    background-color: #dc3545;
+    border: 1px solid #dc3545;
+    color: white;
+}
+.unique-checkout-btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+/* Thank You Page */
+
+#thank-you-page {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        text-align: center;
+        flex-direction: column;
+}
+.thank-you-message {
+    font-size: 1.5rem;
+    color: #333333;
+    margin-bottom: 1rem;
+}
+.btn-product-list {
+    padding: 0.5rem 1rem;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+}
+.btn-product-list:hover {
+    background-color: #218838;
+}

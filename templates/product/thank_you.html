@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Thank You{% endblock %}
+
+{% block content %}
+    <div id="thank-you-page">
+        <h2 class="thank-you-message">Thank You for Your Purchase!</h2>
+        <p>More information regarding your purchase has been sent to your email.</p>
+        <a href="{% url 'list-products' %}" class="btn-product-list">Back to Product List</a>
+    </div>
+{% endblock %}

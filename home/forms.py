@@ -1,7 +1,8 @@
 from django import forms
+from django.core.validators import MaxLengthValidator
 from django.forms import TextInput, EmailInput, Select, NumberInput, Textarea
 
-from home.models import Product, Category, ProductReview, Contact
+from home.models import Product, Category, ProductReview, Contact, SiteUser
 
 
 class ProductForm(forms.ModelForm):
@@ -84,3 +85,11 @@ class ProductReviewForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['comment'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Enter your comment'})
         self.fields['rating'].widget.attrs.update({'class': 'form-control'})
+
+
+class ConfirmationForm(forms.ModelForm):
+    phone_number = forms.CharField(validators=[MaxLengthValidator(11)])
+
+    class Meta:
+        model = SiteUser
+        fields = ['first_name', 'last_name', 'email', 'phone_number', 'address', 'city']

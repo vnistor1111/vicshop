@@ -1,19 +1,18 @@
 from math import floor
-
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.mail import send_mail
+from django.db import transaction
 from django.db.models import Avg
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, TemplateView, ListView, UpdateView, DeleteView, DetailView
-
 import secret
 from .filters import ProductFilter
-from .forms import ProductForm, CategoryForm, ProductReviewForm, ContactForm
-from .models import Product, Category, ProductReview, Cart, CartItem, Favorite
+from .forms import ProductForm, CategoryForm, ProductReviewForm, ContactForm, ConfirmationForm
+from .models import Product, Category, ProductReview, Cart, CartItem, Favorite, Order, OrderItem
 
 
 class HomeTemplateView(TemplateView):
@@ -343,3 +342,96 @@ def clear_cart(request):
 
 class FAQ(TemplateView):
     template_name = 'home/faq.html'
+
+
+def send_checkout_email(order, cart_items, cleaned_data, total_price):
+    product_lines = []
+    for item in cart_items:
+        product_line = f"{item.product.name} - Quantity: {item.quantity}, Price per item: {item.product.price}"
+        product_lines.append(product_line)
+
+    product_details = "\n".join(product_lines)
+    user_contact_details = (
+        f"Name: {cleaned_data['first_name']} {cleaned_data['last_name']}\n"
+        f"Email: {cleaned_data['email']}\n"
+        f"Phone: {cleaned_data['phone_number']}\n"
+        f"Address: {cleaned_data['address']}, {cleaned_data['city']}\n"
+    )
+
+    email_body = (
+        "Thank you for your purchase!\n\n"
+        "Here are the details of your order:\n"
+        f"{product_details}\n\n"
+        f"Total Price: {total_price} RON\n\n"
+        "Your contact details for this order:\n"
+        f"{user_contact_details}\n\n"
+        "Payment is due by cash or card on delivery.\n\n"
+        "If you have any questions or need to make changes to your order, please contact us immediately."
+    )
+
+    email_subject = f'Your Purchase Confirmation - Order ID: {order.order_id}'
+    send_mail(
+        email_subject,
+        email_body,
+        'from@example.com',  # Replace with your actual email
+        [cleaned_data['email']],
+        fail_silently=False,
+    )
+
+
+
+@login_required
+def checkout(request):
+    cart = get_open_cart(request)
+    user = request.user
+    initial_data = {
+        'first_name': user.first_name,
+        'last_name': user.last_name,
+        'city': user.city,
+        'address': user.address,
+        'email': user.email,
+        'phone_number': user.phone_number
+    }
+
+    if request.method == 'POST':
+        form = ConfirmationForm(request.POST)
+        if form.is_valid():
+            with transaction.atomic():
+                cleaned_data = form.cleaned_data
+                order = Order.objects.create(user=user)
+                cart_items = cart.cartitem_set.all()
+                total_price = cart.get_total_price()
+
+                try:
+                    for item in cart_items:
+                        OrderItem.objects.create(order=order, product=item.product, quantity=item.quantity,
+                                                 price=item.product.price)
+                except Exception as e:
+                    # Log the error or send it to an admin email
+                    print(f"Error creating OrderItem: {e}")
+                    # Optionally, you could also rollback the transaction
+                    raise
+
+                cart.status = 'closed'
+                cart.save()
+                cart.cartitem_set.all().delete()
+
+                send_checkout_email(order, cart_items, cleaned_data, total_price)
+
+                messages.success(request, 'Thank you for your purchase!')
+                return redirect('thank_you')
+    else:
+        form = ConfirmationForm(initial=initial_data)
+
+    context = {
+        'form': form,
+        'cart': cart,
+        'user': user,
+        'initial_data': initial_data
+    }
+    return render(request, 'product/checkout.html', context)
+
+
+@login_required
+def thank_you(request):
+    return render(request, 'product/thank_you.html')
