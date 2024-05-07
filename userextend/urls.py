@@ -1,8 +1,6 @@
 from django.urls import path
-
 from userextend import views
 from django.contrib.auth import views as auth_views
-from userextend.forms import AuthenticationNewForm
 
 urlpatterns = [
     path('create_user/', views.UserCreateView.as_view(), name='create_user'),

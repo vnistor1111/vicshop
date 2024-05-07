@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import path
 from home import views
 from home.views import ProductReviewView, contact, add_to_favorites, remove_from_favorites
 

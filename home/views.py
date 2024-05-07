@@ -75,11 +75,10 @@ class ProductListView(ListView):
             rating = product.average_rating or 0
             product.full_stars = floor(rating)
             product.half_star = rating % 1 >= 0.5
-            product.favorite = False  # Default to False for all users
+            product.favorite = False
             product.add_favorite_url = f"{reverse('add_favorite', args=[product.id])}?{filter_params}"
             product.remove_favorite_url = f"{reverse('remove_favorite', args=[product.id])}?{filter_params}"
 
-            # Format the average rating to two decimal places as a string
             if product.average_rating:
                 product.formatted_average_rating = "{:.2f}".format(product.average_rating)
             else:
@@ -159,7 +158,6 @@ def add_to_favorites(request, product_id):
     Favorite.objects.get_or_create(user=request.user, product=product)
     filter_params = request.GET.urlencode()
     return HttpResponseRedirect(f"{reverse('list-products')}?{filter_params}")
-    # return redirect('list-products')  # Redirect to the product list page
 
 
 @login_required
@@ -168,7 +166,6 @@ def remove_from_favorites(request, product_id):
     Favorite.objects.filter(user=request.user, product=product).delete()
     filter_params = request.GET.urlencode()
     return HttpResponseRedirect(f"{reverse('list-products')}?{filter_params}")
-    # return redirect('list-products')
 
 
 class FavoriteListView(LoginRequiredMixin, ListView):
@@ -228,7 +225,7 @@ def product_category_search(request, category_slug):
     return render(request, 'product/list_of_products.html', {'filter': product_filter})
 
 
-class ProductReviewView(CreateView):
+class ProductReviewView(LoginRequiredMixin, CreateView):
     form_class = ProductReviewForm
     template_name = 'product/product_review.html'
     model = ProductReview
@@ -344,6 +341,7 @@ class FAQ(TemplateView):
     template_name = 'home/faq.html'
 
 
+@login_required
 def send_checkout_email(order, cart_items, cleaned_data, total_price):
     product_lines = []
     for item in cart_items:
@@ -407,9 +405,7 @@ def checkout(request):
                         OrderItem.objects.create(order=order, product=item.product, quantity=item.quantity,
                                                  price=item.product.price)
                 except Exception as e:
-                    # Log the error or send it to an admin email
                     print(f"Error creating OrderItem: {e}")
-                    # Optionally, you could also rollback the transaction
                     raise
 
                 cart.status = 'closed'

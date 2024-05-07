@@ -1,9 +1,5 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm
-from django.contrib.auth.models import User
-import random
-
-from django.core.exceptions import ValidationError
 from django.forms import TextInput, Select, NumberInput, EmailInput
 from home.models import SiteUser
 
