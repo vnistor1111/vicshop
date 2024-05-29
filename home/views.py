@@ -58,7 +58,7 @@ class ProductListView(ListView):
     template_name = 'product/list_of_products.html'
     model = Product
     context_object_name = 'all_products'
-    paginate_by = 50
+    paginate_by = 12
 
     def get_queryset(self):
         products = Product.objects.all()
@@ -66,16 +66,16 @@ class ProductListView(ListView):
         return prod_filter.qs
 
     def get_context_data(self, **kwargs):
-        data = super().get_context_data(**kwargs)
-        all_products = self.get_queryset().annotate(average_rating=Avg('reviews__rating'))
+        context = super().get_context_data(**kwargs)
+        products_filtered = ProductFilter(self.request.GET, queryset=self.model.objects.all()).qs
+        products_paginated = context['page_obj'].object_list.annotate(average_rating=Avg('reviews__rating'))
 
-        filter_params = self.request.GET.urlencode()
-
-        for product in all_products:
+        for product in products_paginated:
             rating = product.average_rating or 0
             product.full_stars = floor(rating)
             product.half_star = rating % 1 >= 0.5
             product.favorite = False
+            filter_params = self.request.GET.urlencode()
             product.add_favorite_url = f"{reverse('add_favorite', args=[product.id])}?{filter_params}"
             product.remove_favorite_url = f"{reverse('remove_favorite', args=[product.id])}?{filter_params}"
 
@@ -85,12 +85,12 @@ class ProductListView(ListView):
                 product.formatted_average_rating = "No reviews yet"
 
         if self.request.user.is_authenticated:
-            for p in all_products:
+            for p in products_paginated:
                 p.favorite = p.is_favorite(self.request.user)
 
-        data['all_products'] = all_products
-        data['filters'] = ProductFilter(self.request.GET, queryset=self.get_queryset()).form
-        return data
+        context['all_products'] = products_paginated
+        context['filters'] = ProductFilter(self.request.GET, queryset=products_filtered).form
+        return context
 
 
 class ProductCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):

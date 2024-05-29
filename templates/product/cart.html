@@ -30,7 +30,7 @@
                                                 <button type="submit" class="btn btn-outline-danger btn-sm me-2">-</button>
                                             </form>
                                             <span class="badge bg-secondary">{{ cart_item.quantity }}</span>
-                                            <form action="{% url 'update_cart_item' %}" method="post" class="form-inline ms-2">
+                                            <form action="{% url 'update_cart_item' %}" method="post" class="form-inline">
                                                 {% csrf_token %}
                                                 <input type="hidden" name="product_id" value="{{ cart_item.product.id }}">
                                                 <input type="hidden" name="quantity_change" value="1">
